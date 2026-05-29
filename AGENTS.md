@@ -2,78 +2,92 @@
 
 ## Product Purpose
 
-KITSCH SignalFlow is a working weekly competitive intelligence module designed to help KITSCH leadership understand what competitors are launching, how pricing is moving, what campaign angles are emerging, and what actions leadership should consider.
+KITSCH SignalFlow is a weekly competitive intelligence module designed to help KITSCH leadership understand:
 
-It is designed as an executive intelligence module, not a generic dashboard.
+- competitor launches
+- pricing changes
+- campaign angles
+- emerging opportunities
+- competitive risks
+
+and identify what actions leadership should consider.
+
+The product is intended as an Executive Intelligence Module rather than a traditional dashboard.
 
 ## Original Assessment Objective
 
-Build a working module that can be plugged into KITSCH's current dashboard to provide weekly competitive intelligence on hair accessories, on-brand consumables, and products in the competitive landscape.
+Build a working module we can plug into our current dashboard — weekly competitive intel on hair accessories, consumables on-brand, and products in our landscape.
 
 ## Original Requirements
 
-- Pull only public data from competitor sites, social sources, and ad libraries
-- Output a structured brief on competitor launches, pricing moves, and campaign angles
-- Demonstrate research depth, judgment calls, and clear output structure
-- Be useful in week one
-- Stay within a 5-business-day scope
-- Build something real without over-engineering
-- Deliver a clean working module that can be iterated on
+- Pulls only public data:
+  - competitor sites
+  - social
+  - ad libraries
+- Outputs a structured brief on:
+  - competitor launches
+  - pricing moves
+  - campaign angles
+- Demonstrates:
+  - research depth
+  - judgment calls
+  - clear output structure
+- Useful in week one
+- Timebox:
+  - 5 business days
+  - something real
+  - not over-engineered
+  - clean and working
+  - can be iterated on
 
 ## Evaluation Criteria
 
 - How the candidate thinks through real problems
 - Taste in what matters and what to ignore
-- How output is structured so leadership can act on it
-- Quality of code/build versus template polish
-- Communication and check-ins during the assessment window
+- How output is structured so we can act on it
+- Quality of build versus template polish
+- Communication
 
 ## Deliverables
 
-- Working module committed to an accessible repository
-- Sample weekly brief output
-- Brief README explaining how to run it
+- Working module
+- Sample weekly brief
+- README explaining how to run it
 
 ## Public Data Rules
 
-Only public data sources may be used.
+Only public data sources.
 
-Allowed sources:
+No private APIs.
 
-- Competitor websites
-- Public social profile/source metadata
-- Public ad library references
+No credentials.
 
-Do not use:
+No non-public information.
 
-- Private APIs
-- Paid data
-- Credentials
-- Non-public sources
-- ToS-risky or brittle scraping patterns
+No ToS-risky scraping.
 
-## MVP Data Collection Strategy
+## MVP Collection Strategy
 
-Website sources:
+### Website Sources
 
-- Support live public website fetching when enabled
-- Extract available public HTML metadata, page titles, descriptions, prices, promo text, and other visible public signals when technically feasible
-- Use fallback extraction or seeded demonstration signals when live collection is blocked
+- Support live public website collection when enabled
+- Extract publicly available metadata and page signals
+- Use fallback extraction when collection is blocked
 
-Social sources:
+### Social Sources
 
-- Implemented as MVP public metadata/source connectors
-- Designed for expansion into deeper public extraction if appropriate later
+- Implemented as public metadata/source connectors
+- Expansion-ready architecture
 
-Ad library sources:
+### Ad Library Sources
 
 - Implemented as public reference connectors
-- Designed to demonstrate source registration, traceability, and future expansion
+- Expansion-ready architecture
 
-Seeded/fallback data:
+### Seeded Demonstration Signals
 
-- May be used to demonstrate the full workflow when live sources are unavailable
-- Must be clearly labeled and never presented as unsupported live intelligence
+- Allowed when clearly labeled
+- Never represented as unsupported live intelligence
 
 ## Intelligence Framework
 
@@ -81,81 +95,44 @@ Every surfaced signal should answer:
 
 1. What happened?
 2. Why it matters?
-3. What action should KITSCH consider?
-4. What evidence supports the conclusion?
-5. How confident is the system?
+3. Recommended action
+4. Evidence
+5. Confidence
 
 ## Executive Design Principles
 
-The application should feel like:
-
 - Executive intelligence
-- Strategic decision support
-- Monday leadership briefing
-- Evidence-backed competitive analysis
-
-It should not feel like:
-
-- A generic dashboard
-- A static report
-- A prompt library
-- A template-only submission
-
-## Workspace Model
-
-The Executive Dashboard should organize content into focused workspaces:
-
-- Brief
-- Actions
-- Signals
-- Evidence
-- Collection
-
-Brief:
-Fast leadership summary.
-
-Actions:
-Recommended leadership actions and supporting rationale.
-
-Signals:
-Detailed competitive intelligence.
-
-Evidence:
-Source traceability and confidence.
-
-Collection:
-Public collection status and operational transparency.
-
-## Technical Expectations
-
-Prioritize:
-
-- Working application
-- Clean architecture
-- Clear components
-- Transparent README
+- Decision support
 - Evidence traceability
-- Build stability
+- Strategic signal prioritization
+- Clarity over complexity
 
 Avoid:
 
+- Generic dashboards
 - Over-engineering
 - Unsupported claims
-- Broken routes
-- Excessive complexity
-- Cosmetic polish without business value
+
+## Workspace Model
+
+Brief
+
+Actions
+
+Signals
+
+Evidence
+
+Collection
 
 ## Definition of Done
 
-The project is complete when:
-
-- The app runs locally
-- The deployed app renders correctly
-- Executive workspace navigation works
-- /assessment exists and renders
-- /api/collect works
-- Public collection behavior is clearly described
-- Signals include source, evidence, confidence, priority, and recommended action
-- README accurately matches the implementation
-- npm run lint passes
-- npm run build passes
+- Application runs
+- Dashboard renders
+- Workspace navigation functions
+- /assessment exists
+- /api/collect functions
+- README matches implementation
+- Signals include evidence and confidence
+- Build passes
+- Lint passes
