@@ -128,15 +128,35 @@ export function WeeklyIntelModule({
                     <Badge tone={signal.includeInExecutiveSummary ? "green" : "neutral"}>
                       {signal.includeInExecutiveSummary ? "executive signal" : "monitor only"}
                     </Badge>
+                    <Badge tone="amber">Seeded Demonstration Data</Badge>
                     <Badge>{signal.signalType as SignalType}</Badge>
                     <Badge>{signal.competitor}</Badge>
+                    <Badge
+                      tone={
+                        signal.source.type === "website" ||
+                        signal.source.type === "shopify"
+                          ? "green"
+                          : signal.source.type === "social"
+                            ? "cyan"
+                            : "amber"
+                      }
+                    >
+                      {signal.source.type === "ad-library"
+                        ? "Ad Library"
+                        : signal.source.type}
+                    </Badge>
                     <Badge>{signal.score.confidence} confidence</Badge>
                   </div>
                   <h3 className="mt-3 text-base font-semibold text-foreground">
                     {signal.title}
                   </h3>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    <span className="font-medium text-foreground">What happened: </span>
                     {signal.summary}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    <span className="font-medium text-foreground">Why it matters: </span>
+                    {signal.whyItMatters}
                   </p>
                   <div className="mt-4 grid gap-2 sm:grid-cols-3">
                     <Metric label="Relevance" value={`${signal.score.relevanceToKitsch}/5`} />
@@ -145,17 +165,21 @@ export function WeeklyIntelModule({
                   </div>
                   <Separator className="my-4" />
                   <p className="text-sm leading-6 text-foreground">
+                    <span className="font-medium">Recommended action: </span>
                     {signal.recommendedAction}
                   </p>
-                  <a
-                    className="mt-3 inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground"
-                    href={signal.source.url}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" aria-hidden />
-                    {signal.source.label}
-                  </a>
+                  <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                    <a
+                      className="inline-flex items-center gap-2 hover:text-foreground"
+                      href={signal.source.url}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+                      Evidence link: {signal.source.label}
+                    </a>
+                    <span>Collected {signal.detectedAt}</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -179,6 +203,11 @@ export function WeeklyIntelModule({
               >
                 <div className="flex flex-wrap gap-2">
                   <SourceTypeBadge sourceType={signal.sourceType} />
+                  <Badge tone={signal.evidence.includes("simulated") ? "amber" : "green"}>
+                    {signal.evidence.includes("simulated")
+                      ? "MVP Demonstration"
+                      : "Collected Public Data"}
+                  </Badge>
                   <Badge>{signal.signalType.replace(/_/g, " ")}</Badge>
                   <Badge>{signal.competitor}</Badge>
                   <Badge>{signal.score.confidence} confidence</Badge>

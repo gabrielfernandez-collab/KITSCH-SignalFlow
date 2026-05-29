@@ -209,6 +209,23 @@ export interface ScoredPublicSignal extends NormalizedSignal {
 export interface PublicCollectionResult {
   mode: "live-public-fetch" | "mvp-public-connectors";
   collectedAt: string;
+  summary: {
+    liveWebsiteCollectionEnabled: boolean;
+    socialSourceCollectionStatus: string;
+    adLibraryCollectionStatus: string;
+    sourcesProcessed: number;
+    signalsGenerated: number;
+    failedSources: number;
+    mvpSources: number;
+    liveSources: number;
+  };
+  collectionLog: Array<{
+    competitor: string;
+    sourceType: PublicSourceType;
+    sourceUrl: string;
+    status: "Live" | "MVP" | "Failed";
+    note: string;
+  }>;
   signals: ScoredPublicSignal[];
   suppressedSignals: ScoredPublicSignal[];
 }

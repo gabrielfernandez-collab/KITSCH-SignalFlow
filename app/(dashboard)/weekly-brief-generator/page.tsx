@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { CollectionControl } from "@/components/dashboard/collection-control";
 import { WeeklyIntelModule } from "@/components/dashboard/weekly-intel-module";
 import { collectPublicSignals } from "@/lib/collector";
 import { generateWeeklyBrief, getPrioritizedSignals } from "@/lib/intelligence";
@@ -37,12 +38,15 @@ export default async function WeeklyBriefGeneratorPage() {
         title="Executive intelligence report"
       />
 
+      <CollectionControl initialCollection={collection} />
+
       <section className="grid min-w-0 max-w-full gap-5 xl:grid-cols-[1.4fr_1fr]">
         <Card>
           <CardHeader>
             <div className="flex flex-wrap items-center gap-2">
               <Badge tone="green">Week of {brief.weekOf}</Badge>
               <Badge>Executive ready</Badge>
+              <Badge tone="amber">Seeded Demonstration Data</Badge>
             </div>
             <CardTitle className="pt-2">Executive summary</CardTitle>
           </CardHeader>

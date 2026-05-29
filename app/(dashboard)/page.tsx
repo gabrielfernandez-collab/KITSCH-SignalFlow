@@ -7,13 +7,18 @@ import { SignalCard } from "@/components/dashboard/signal-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CollectionControl } from "@/components/dashboard/collection-control";
 import { Separator } from "@/components/ui/separator";
+import { collectPublicSignals } from "@/lib/collector";
 import { getExecutiveMetrics, getTopSignals } from "@/lib/intelligence";
 import { recommendations, weeklyBrief } from "@/lib/sample-data";
 
-export default function ExecutiveDashboardPage() {
+export default async function ExecutiveDashboardPage() {
   const metrics = getExecutiveMetrics();
   const signals = getTopSignals();
+  const collection = await collectPublicSignals({
+    liveFetch: process.env.SIGNALFLOW_LIVE_FETCH === "true"
+  });
 
   return (
     <>
@@ -44,6 +49,8 @@ export default function ExecutiveDashboardPage() {
           <MetricCard key={metric.label} {...metric} />
         ))}
       </section>
+
+      <CollectionControl initialCollection={collection} />
 
       <section className="grid gap-5 xl:grid-cols-[1.6fr_1fr]">
         <div className="space-y-5">

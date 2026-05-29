@@ -15,6 +15,8 @@ export async function GET(request: Request) {
   return NextResponse.json({
     mode: collection.mode,
     collectedAt: collection.collectedAt,
+    summary: collection.summary,
+    collectionLog: collection.collectionLog,
     signals: collection.signals,
     suppressedSignals: collection.suppressedSignals,
     snapshots

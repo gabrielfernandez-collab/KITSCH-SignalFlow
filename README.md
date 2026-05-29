@@ -72,6 +72,25 @@ connectors could be expanded with approved partner APIs, persisted source
 snapshots, queue-based collection, change detection, and OpenAI summaries with
 source citations.
 
+## Assessment Requirement Mapping
+
+| Requirement | Implementation | Status |
+| --- | --- | --- |
+| Pulls only public data | Competitor URLs live in `data/competitors.json`; collectors use public websites, public social profile URLs, and public ad-library entry points only. | Implemented |
+| Competitor websites | `lib/collectors/websiteCollector.ts` fetches public HTML when live collection is enabled and extracts page title, product title, price markers, promotional copy, and meta description. | Implemented |
+| Public social sources | `lib/collectors/socialCollector.ts` ingests public Instagram/TikTok metadata and connector evidence in MVP mode without credentials. | Implemented |
+| Public ad library sources | `lib/collectors/adLibraryCollector.ts` normalizes public ad-library URLs, campaign headline/theme evidence, and campaign copy placeholders. | Implemented |
+| Configurable source registry | `data/competitors.json` contains Slip, Invisibobble, Scunci, Goody, Teleties, and Crown Affair source configuration. | Implemented |
+| Signal normalization | `lib/signals/normalizeSignal.ts` outputs id, competitor, source type, signal type, title, summary, evidence, source URL, and collected timestamp. | Implemented |
+| Signal scoring | `lib/scoring/scoreSignal.ts` scores relevance, impact, confidence, and urgency, then separates executive-priority signals from noise. | Implemented |
+| Executive filtering | `prioritizeExecutiveSignals` promotes high-relevance and high-impact signals and suppresses lower-value items. | Implemented |
+| Weekly brief generation | Weekly Brief Generator shows executive summary, what happened, why it matters, recommended action, recommendations, and copy-ready output. | Implemented |
+| Evidence traceability | Signal cards expose source type badges, evidence links, source URLs, evidence text, and collection timestamps. | Implemented |
+| Run collection workflow | `Data Collection Status` panel runs `/api/collect`, shows progress, and reports sources processed, signals generated, failed sources, and collection log. | Implemented |
+| Live collection toggle | `SIGNALFLOW_LIVE_FETCH=true` or `/api/collect?live=true` enables live public website fetch attempts; failures fall back gracefully. | Implemented |
+| Assessment compliance page | `/assessment` summarizes compliance checklist and implementation notes for reviewers. | Implemented |
+| README documentation | README documents setup, architecture, collection strategy, known limitations, and this requirement mapping. | Implemented |
+
 ## API Routes
 
 - `GET /api/weekly-brief` returns the structured weekly brief.

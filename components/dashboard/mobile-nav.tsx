@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, FileText, Megaphone, Radar, Tags, UsersRound } from "lucide-react";
+import {
+  BarChart3,
+  ClipboardCheck,
+  FileText,
+  Megaphone,
+  Radar,
+  Tags,
+  UsersRound
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -12,7 +20,8 @@ const navItems = [
   { href: "/product-launch-radar", label: "Launches", icon: Radar },
   { href: "/pricing-intelligence", label: "Pricing", icon: Tags },
   { href: "/campaign-intelligence", label: "Campaigns", icon: Megaphone },
-  { href: "/weekly-brief-generator", label: "Brief", icon: FileText }
+  { href: "/weekly-brief-generator", label: "Brief", icon: FileText },
+  { href: "/assessment", label: "Assessment", icon: ClipboardCheck }
 ];
 
 export function MobileNav() {

@@ -94,10 +94,51 @@ export async function collectPublicSignals(options?: {
   const scoredSignals = normalizeSignals(rawSignals).map(enrichScoredSignal);
   const { prioritySignals, suppressedSignals } =
     prioritizeExecutiveSignals(scoredSignals);
+  const sourceCount = sourceRegistry.reduce(
+    (total, competitor) => total + competitor.sources.length,
+    0
+  );
+  const collectionLog = rawSignals.map((signal) => {
+    const status =
+      signal.metadata?.status === "fetched"
+        ? "Live"
+        : signal.metadata?.status === "failed"
+          ? "Failed"
+          : "MVP";
+
+    return {
+      competitor: signal.competitor,
+      sourceType: signal.sourceType,
+      sourceUrl: signal.sourceUrl,
+      status,
+      note:
+        status === "Live"
+          ? "Fetched public website HTML without credentials."
+          : status === "Failed"
+            ? "Collection failed gracefully and did not block the dashboard."
+            : "MVP connector uses public source metadata or safe simulated extraction."
+    } as const;
+  });
+  const failedSources = collectionLog.filter((entry) => entry.status === "Failed").length;
+  const liveSources = collectionLog.filter((entry) => entry.status === "Live").length;
+  const mvpSources = collectionLog.filter((entry) => entry.status === "MVP").length;
 
   return {
     mode: options?.liveFetch ? "live-public-fetch" : "mvp-public-connectors",
     collectedAt,
+    summary: {
+      liveWebsiteCollectionEnabled: Boolean(options?.liveFetch),
+      socialSourceCollectionStatus:
+        "MVP public metadata connector: profile URLs and category context only.",
+      adLibraryCollectionStatus:
+        "MVP public metadata connector: ad library URLs and inferred campaign themes.",
+      sourcesProcessed: sourceCount,
+      signalsGenerated: scoredSignals.length,
+      failedSources,
+      mvpSources,
+      liveSources
+    },
+    collectionLog,
     signals: prioritySignals,
     suppressedSignals
   };

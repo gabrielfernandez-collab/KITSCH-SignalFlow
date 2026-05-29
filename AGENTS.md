@@ -1,175 +1,101 @@
-Read AGENTS.md and implement the following enhancement.
+Read AGENTS.md and review the current implementation of KITSCH SignalFlow.
 
 GOAL
 
-Upgrade KITSCH SignalFlow so it demonstrates real public data collection from competitor sources rather than relying solely on seeded data.
+Perform a final assessment-readiness pass.
 
-This is an assessment project.
+The objective is not to add more features.
 
-The objective is not large-scale scraping infrastructure.
+The objective is to strengthen compliance with the assessment requirements and improve credibility for reviewers.
 
-The objective is to demonstrate a practical and maintainable approach to collecting public competitive intelligence.
+Focus on transparency, usability, and demonstrating a realistic public intelligence workflow.
 
-REQUIREMENTS
+---
 
-Create a Public Signal Collection Layer.
+TASK 1
 
-The system should support three source categories:
+Improve Public Data Collection Transparency
 
-1. Competitor Websites
-2. Public Social Sources
-3. Public Ad Library Sources
+Review the current data collection implementation.
 
-Implement a configurable source registry.
+Create a dedicated section in the UI called:
 
-Create:
+"Data Collection Status"
 
-data/competitors.json
+Display:
 
-Each competitor should contain:
+* Live Website Collection Enabled/Disabled
+* Social Source Collection Status
+* Ad Library Collection Status
+* Last Collection Timestamp
 
-{
-"name": "",
-"website": "",
-"instagram": "",
-"tiktok": "",
-"facebookAds": "",
-"category": ""
-}
+Explain clearly:
 
-INITIAL COMPETITORS
+* Which sources are collected live
+* Which sources are currently using public metadata
+* Which sources are operating in MVP mode
 
-Add several competitors relevant to KITSCH.
+This information should be visible from the dashboard.
 
-Examples:
+The goal is to help reviewers immediately understand the collection strategy.
 
-* Slip
-* Invisibobble
-* Scunci
-* Goody
-* Teleties
-* Crown Affair
+---
 
-PUBLIC WEBSITE COLLECTION
+TASK 2
 
-Implement:
+Add Public Collection Execution Workflow
 
-lib/collectors/websiteCollector.ts
+Create a new dashboard action:
 
-Capabilities:
+"Run Public Collection"
 
-* Fetch public HTML pages
-* Extract:
+Requirements:
 
-  * Page title
-  * Product title
-  * Price
-  * Promotional copy
-  * Meta description
+* Trigger the collection pipeline
+* Collect data from configured public sources
+* Refresh signals
+* Regenerate the weekly brief
 
-Generate normalized signals.
+Provide:
 
-Signal examples:
+* Progress indicator
+* Collection summary
+* Number of signals collected
+* Sources processed
 
-{
-type: "product_launch",
-competitor: "Slip",
-title: "...",
-sourceUrl: "...",
-evidence: "...",
-collectedAt: "..."
-}
+The user should be able to run a collection cycle directly from the dashboard.
 
-SOCIAL SIGNAL COLLECTION
+---
 
-Implement:
+TASK 3
 
-lib/collectors/socialCollector.ts
+Improve Source Traceability
 
-For MVP:
+Every signal must include:
 
-Collect public page information only.
+* Source Type
+* Source URL
+* Collection Timestamp
 
-Examples:
+Ensure every card and detail view exposes this information.
 
-* Profile descriptions
-* Recent visible post titles if available
-* Public metadata
+Add badges:
 
-If live collection is unreliable, create a connector structure that demonstrates how public social sources are ingested.
+Website
+Social
+Ad Library
 
-The architecture must support future expansion.
+The reviewer should always be able to trace a signal back to its origin.
 
-AD LIBRARY COLLECTION
+---
 
-Implement:
+TASK 4
 
-lib/collectors/adLibraryCollector.ts
+Strengthen Weekly Brief Credibility
 
-For MVP:
+Review the Weekly Brief Generator.
 
-Support public ad library URLs.
-
-Capture:
-
-* Ad source URL
-* Campaign headline
-* Campaign copy if available
-* Campaign theme
-
-Normalize results into signals.
-
-SIGNAL NORMALIZATION
-
-Create:
-
-lib/signals/normalizeSignal.ts
-
-Every signal should contain:
-
-id
-competitor
-sourceType
-signalType
-title
-summary
-evidence
-sourceUrl
-collectedAt
-
-JUDGMENT LAYER
-
-Create:
-
-lib/scoring/scoreSignal.ts
-
-Score every signal on:
-
-* Relevance
-* Impact
-* Confidence
-* Urgency
-
-Return:
-
-Low
-Medium
-High
-
-EXECUTIVE FILTER
-
-Create logic that prioritizes:
-
-High relevance
-High impact
-
-and suppresses low-value noise.
-
-WEEKLY BRIEF
-
-Update the Weekly Brief Generator.
-
-Each insight must include:
+Every insight must contain:
 
 WHAT HAPPENED
 
@@ -177,61 +103,146 @@ WHY IT MATTERS
 
 RECOMMENDED ACTION
 
-Example:
+Do not allow unsupported conclusions.
 
-Competitor:
-Slip
+If data is sample or simulated:
 
-Signal:
-New premium silk styling collection
+Label it clearly.
 
-Why it matters:
-Signals continued premium positioning in hair care accessories.
+Examples:
 
-Recommended action:
-Monitor overlap with KITSCH premium product roadmap.
+"Sample Signal"
 
-UI ENHANCEMENTS
+"Seeded Demonstration Data"
 
-Add:
+"MVP Demonstration"
 
-Source Type badges:
+The goal is to avoid any appearance of fabricated intelligence.
 
-* Website
-* Social
-* Ad Library
+---
 
-Add:
+TASK 5
 
-Evidence links
+Assessment Readiness Panel
 
-Add:
+Create a dedicated page:
 
-Collected timestamp
+/assessment
 
-README UPDATE
+Display:
+
+Assessment Compliance Checklist
+
+Show:
+
+✓ Public Data Sources
+✓ Competitor Websites
+✓ Social Sources
+✓ Ad Library Sources
+✓ Signal Normalization
+✓ Signal Scoring
+✓ Weekly Brief Generation
+✓ Executive Recommendations
+✓ Evidence Traceability
+✓ Dashboard Integration
+✓ README Documentation
+
+For each item:
+
+Display implementation notes.
+
+This page should help a reviewer verify compliance in less than two minutes.
+
+---
+
+TASK 6
+
+README Improvement
 
 Add a section:
 
-Public Data Collection Strategy
+Assessment Requirement Mapping
 
-Explain:
+Create a table:
 
-* What sources are collected live
-* What sources are simulated for MVP purposes
-* Why this approach was chosen
-* How it could be expanded in production
+Requirement
+Implementation
+Status
 
-IMPORTANT
+Map every requirement from the assessment email.
 
-Do not build aggressive scraping infrastructure.
+Example:
 
-Do not require private credentials.
+Requirement:
+Pulls only public data
 
-Do not use restricted APIs.
+Implementation:
+Website collector, social source connectors, ad library connectors
 
-Do not over-engineer.
+Status:
+Implemented
 
-Focus on demonstrating a realistic public intelligence collection workflow that satisfies the KITSCH assessment requirements.
+Repeat for all requirements.
 
-The final result should clearly show that SignalFlow can collect, normalize, analyze, and report on public competitive signals.
+---
+
+TASK 7
+
+Live Collection Verification
+
+Review the current collection pipeline.
+
+Ensure:
+
+* Live website collection can be enabled through configuration
+* Errors are handled gracefully
+* Failed sources do not break the dashboard
+* Collection results are logged
+
+Provide a collection summary after each run.
+
+Example:
+
+Collection Complete
+
+Sources Processed: 12
+Signals Generated: 47
+Failed Sources: 1
+
+---
+
+TASK 8
+
+Executive Polish
+
+Review the entire application.
+
+Prioritize:
+
+* Clarity
+* Credibility
+* Traceability
+* Actionability
+
+Do not add unnecessary features.
+
+Do not redesign the application.
+
+Do not introduce complexity.
+
+The final result should feel like a practical competitive intelligence module that a COO could evaluate and understand immediately.
+
+SUCCESS CRITERIA
+
+A reviewer should be able to:
+
+1. Open the application
+2. Understand where data comes from
+3. Run a collection cycle
+4. Review collected signals
+5. Trace evidence to sources
+6. Read the weekly brief
+7. Understand why insights matter
+8. Verify assessment compliance
+
+All within five minutes.

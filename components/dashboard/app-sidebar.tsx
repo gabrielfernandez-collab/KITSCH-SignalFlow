@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   BarChart3,
+  ClipboardCheck,
   FileText,
   Megaphone,
   Radar,
@@ -20,7 +21,8 @@ const navItems = [
   { href: "/product-launch-radar", label: "Product Launch Radar", icon: Radar },
   { href: "/pricing-intelligence", label: "Pricing Intelligence", icon: Tags },
   { href: "/campaign-intelligence", label: "Campaign Intelligence", icon: Megaphone },
-  { href: "/weekly-brief-generator", label: "Weekly Brief Generator", icon: FileText }
+  { href: "/weekly-brief-generator", label: "Weekly Brief Generator", icon: FileText },
+  { href: "/assessment", label: "Assessment", icon: ClipboardCheck }
 ];
 
 export function AppSidebar() {
