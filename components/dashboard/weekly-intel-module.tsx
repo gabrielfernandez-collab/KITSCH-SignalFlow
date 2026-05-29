@@ -10,18 +10,21 @@ import { Separator } from "@/components/ui/separator";
 import type {
   CompetitorSourceRegistryEntry,
   IntelligenceSignal,
+  ScoredPublicSignal,
   SignalType,
   WeeklyBrief
 } from "@/lib/types";
 
 interface WeeklyIntelModuleProps {
   brief: WeeklyBrief;
+  collectedSignals: ScoredPublicSignal[];
   sourceRegistry: CompetitorSourceRegistryEntry[];
   signals: IntelligenceSignal[];
 }
 
 export function WeeklyIntelModule({
   brief,
+  collectedSignals,
   signals,
   sourceRegistry
 }: WeeklyIntelModuleProps) {
@@ -158,6 +161,62 @@ export function WeeklyIntelModule({
             </div>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Latest public collection run</CardTitle>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              Normalized signals produced by the website, social, and ad-library
+              collectors. Low-value items are scored and suppressed before the
+              executive brief.
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {collectedSignals.map((signal) => (
+              <div
+                className="rounded-lg border border-white/10 bg-white/[0.03] p-4"
+                key={signal.id}
+              >
+                <div className="flex flex-wrap gap-2">
+                  <SourceTypeBadge sourceType={signal.sourceType} />
+                  <Badge>{signal.signalType.replace(/_/g, " ")}</Badge>
+                  <Badge>{signal.competitor}</Badge>
+                  <Badge>{signal.score.confidence} confidence</Badge>
+                </div>
+                <h3 className="mt-3 text-sm font-semibold text-foreground">
+                  {signal.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  <span className="font-medium text-foreground">What happened: </span>
+                  {signal.summary}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  <span className="font-medium text-foreground">Why it matters: </span>
+                  {signal.whyItMatters}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  <span className="font-medium text-foreground">Recommended action: </span>
+                  {signal.recommendedAction}
+                </p>
+                <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                  <a
+                    className="inline-flex items-center gap-2 hover:text-foreground"
+                    href={signal.sourceUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+                    Evidence link
+                  </a>
+                  <span>Collected {new Date(signal.collectedAt).toLocaleString()}</span>
+                </div>
+                <p className="mt-3 rounded-md border border-white/10 bg-black/10 p-3 text-xs leading-5 text-muted-foreground">
+                  {signal.evidence}
+                </p>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
       </div>
 
       <div className="min-w-0 space-y-5">
@@ -206,6 +265,21 @@ export function WeeklyIntelModule({
       </div>
     </section>
   );
+}
+
+function SourceTypeBadge({
+  sourceType
+}: {
+  sourceType: ScoredPublicSignal["sourceType"];
+}) {
+  const tone =
+    sourceType === "Website"
+      ? "green"
+      : sourceType === "Social"
+        ? "cyan"
+        : "amber";
+
+  return <Badge tone={tone}>{sourceType}</Badge>;
 }
 
 function Metric({ label, value }: { label: string; value: string }) {

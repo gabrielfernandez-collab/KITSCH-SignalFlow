@@ -23,6 +23,17 @@ export function SignalCard({ signal }: SignalCardProps) {
           <Badge tone={severityTone[signal.severity]}>{signal.severity}</Badge>
           <Badge>{signal.signalType}</Badge>
           <Badge>{signal.competitor}</Badge>
+          <Badge
+            tone={
+              signal.source.type === "website" || signal.source.type === "shopify"
+                ? "green"
+                : signal.source.type === "social"
+                  ? "cyan"
+                  : "amber"
+            }
+          >
+            {signal.source.type === "ad-library" ? "Ad Library" : signal.source.type}
+          </Badge>
           <Badge>{signal.score.confidence} confidence</Badge>
         </div>
         <CardTitle className="pt-2">{signal.title}</CardTitle>
@@ -84,6 +95,7 @@ export function SignalCard({ signal }: SignalCardProps) {
           <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
           Source: {signal.source.label}
         </a>
+        <p className="text-xs text-muted-foreground">Collected {signal.detectedAt}</p>
       </CardContent>
     </Card>
   );

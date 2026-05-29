@@ -17,35 +17,68 @@ This repository contains a working weekly competitive intelligence module with:
 - Campaign Intelligence
 - Weekly Brief Generator
 - Competitor source registry
-- Public-source collection endpoint with seeded fallback snapshots
+- Public-source collection layer for websites, social sources, and ad libraries
+- Normalization and scoring pipeline for collected public signals
 - Scored signal model with relevance, impact, confidence, and urgency
 - Filterable dashboard-ready weekly brief module
 - Copy-ready executive report output
 - Sample competitor intelligence dataset
 
-The MVP uses local sample data in `lib/sample-data.ts` and source configuration
-in `lib/source-registry.ts`. The collection service can return seeded public
-snapshots by default, or attempt live public URL fetches when
-`SIGNALFLOW_LIVE_FETCH=true` is set.
+The MVP uses local sample brief data in `lib/sample-data.ts` plus a configurable
+competitor registry in `data/competitors.json`. The collection service supports
+live public website fetching when `SIGNALFLOW_LIVE_FETCH=true` is set, while
+social and ad-library connectors intentionally use public URL metadata for this
+assessment MVP.
 
 ## Data Sources Used
 
 Configured public source examples:
 
-- Heatless Hair storefront and TikTok profile
-- Dae website and Instagram profile
-- Crown Affair website
-- Slip storefront and Meta Ad Library entry point
+- Slip website, Instagram, TikTok, and Meta Ad Library entry point
+- Invisibobble website, Instagram, TikTok, and Meta Ad Library entry point
+- Scunci website, Instagram, TikTok, and Meta Ad Library entry point
+- Goody website, Instagram, TikTok, and Meta Ad Library entry point
+- Teleties website, Instagram, TikTok, and Meta Ad Library entry point
+- Crown Affair website, Instagram, TikTok, and Meta Ad Library entry point
 
 No credentials, private APIs, private data, or restricted sources are used.
+
+## Public Data Collection Strategy
+
+SignalFlow demonstrates a practical public intelligence workflow without
+aggressive scraping:
+
+- `lib/collectors/websiteCollector.ts` can fetch public HTML pages and extract
+  page title, product title, price markers, promotional copy, and meta
+  description. Live website fetching is enabled with
+  `SIGNALFLOW_LIVE_FETCH=true`.
+- `lib/collectors/socialCollector.ts` collects public social source metadata:
+  configured Instagram and TikTok profile URLs, category context, and connector
+  evidence. It does not require credentials or restricted APIs.
+- `lib/collectors/adLibraryCollector.ts` supports public ad-library URLs and
+  normalizes campaign headline/theme evidence from the configured source entry.
+- `lib/signals/normalizeSignal.ts` converts raw collector output into a stable
+  signal contract with `id`, `competitor`, `sourceType`, `signalType`, `title`,
+  `summary`, `evidence`, `sourceUrl`, and `collectedAt`.
+- `lib/scoring/scoreSignal.ts` assigns qualitative relevance, impact,
+  confidence, and urgency scores, then suppresses low-value noise from the
+  executive view.
+
+For MVP reliability, website collection uses a safe simulated extraction unless
+live fetching is explicitly enabled. Social and ad-library collection are
+connector structures that demonstrate how public source ingestion is normalized
+without brittle post scraping or private credentials. In production, these
+connectors could be expanded with approved partner APIs, persisted source
+snapshots, queue-based collection, change detection, and OpenAI summaries with
+source citations.
 
 ## API Routes
 
 - `GET /api/weekly-brief` returns the structured weekly brief.
 - `GET /api/source-registry` returns configured competitors and public sources.
-- `GET /api/collect` returns source snapshots. By default it uses seeded public
-  snapshots for a reliable demo; set `SIGNALFLOW_LIVE_FETCH=true` to attempt
-  public URL fetches.
+- `GET /api/collect` returns normalized scored public signals, suppressed
+  low-value signals, and source snapshots. Set `SIGNALFLOW_LIVE_FETCH=true` or
+  call `/api/collect?live=true` to attempt public website fetching.
 
 ## Tech Stack
 
@@ -87,10 +120,16 @@ npm run build
 - `components/dashboard/weekly-intel-module.tsx` contains the embeddable weekly
   brief module with filters and copy-ready report output.
 - `components/ui` contains reusable shadcn-style primitives.
+- `data/competitors.json` is the configurable public source registry required
+  for assessment review.
+- `lib/collectors` contains the website, social, and ad-library collectors.
+- `lib/signals/normalizeSignal.ts` defines the normalized public signal shape.
+- `lib/scoring/scoreSignal.ts` scores signals and filters executive noise.
 - `lib/types.ts` defines the core intelligence domain model.
 - `lib/sample-data.ts` provides traceable sample competitor signals.
 - `lib/source-registry.ts` defines competitors and public source URLs.
-- `lib/collector.ts` handles public snapshot collection with seeded fallback.
+- `lib/collector.ts` orchestrates public collection, normalization, scoring, and
+  executive filtering.
 - `lib/intelligence.ts` centralizes ranking, weekly brief generation, and summary
   transformations.
 

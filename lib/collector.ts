@@ -1,6 +1,11 @@
 import { sourceSnapshots } from "@/lib/sample-data";
 import { sourceRegistry } from "@/lib/source-registry";
-import type { SourceSnapshot } from "@/lib/types";
+import { collectAdLibrarySignals } from "@/lib/collectors/adLibraryCollector";
+import { collectSocialSignals } from "@/lib/collectors/socialCollector";
+import { collectWebsiteSignals } from "@/lib/collectors/websiteCollector";
+import { enrichScoredSignal, prioritizeExecutiveSignals } from "@/lib/scoring/scoreSignal";
+import { normalizeSignals } from "@/lib/signals/normalizeSignal";
+import type { PublicCollectionResult, SourceSnapshot } from "@/lib/types";
 
 async function fetchPublicText(url: string) {
   const controller = new AbortController();
@@ -72,4 +77,28 @@ export async function collectPublicSnapshots(options?: {
   }
 
   return snapshots;
+}
+
+export async function collectPublicSignals(options?: {
+  liveFetch?: boolean;
+}): Promise<PublicCollectionResult> {
+  const collectedAt = new Date().toISOString();
+  const rawSignals = [
+    ...(await collectWebsiteSignals({
+      liveFetch: options?.liveFetch,
+      collectedAt
+    })),
+    ...(await collectSocialSignals({ collectedAt })),
+    ...(await collectAdLibrarySignals({ collectedAt }))
+  ];
+  const scoredSignals = normalizeSignals(rawSignals).map(enrichScoredSignal);
+  const { prioritySignals, suppressedSignals } =
+    prioritizeExecutiveSignals(scoredSignals);
+
+  return {
+    mode: options?.liveFetch ? "live-public-fetch" : "mvp-public-connectors",
+    collectedAt,
+    signals: prioritySignals,
+    suppressedSignals
+  };
 }

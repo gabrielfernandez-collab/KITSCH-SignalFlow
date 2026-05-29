@@ -1,13 +1,22 @@
 import { NextResponse } from "next/server";
 
-import { collectPublicSnapshots } from "@/lib/collector";
+import { collectPublicSignals, collectPublicSnapshots } from "@/lib/collector";
 
-export async function GET() {
-  const liveFetch = process.env.SIGNALFLOW_LIVE_FETCH === "true";
-  const snapshots = await collectPublicSnapshots({ liveFetch });
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const liveFetch =
+    process.env.SIGNALFLOW_LIVE_FETCH === "true" ||
+    searchParams.get("live") === "true";
+  const [snapshots, collection] = await Promise.all([
+    collectPublicSnapshots({ liveFetch }),
+    collectPublicSignals({ liveFetch })
+  ]);
 
   return NextResponse.json({
-    mode: liveFetch ? "live-public-fetch" : "seeded-public-snapshots",
+    mode: collection.mode,
+    collectedAt: collection.collectedAt,
+    signals: collection.signals,
+    suppressedSignals: collection.suppressedSignals,
     snapshots
   });
 }

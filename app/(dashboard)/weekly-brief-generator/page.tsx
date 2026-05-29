@@ -6,12 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { WeeklyIntelModule } from "@/components/dashboard/weekly-intel-module";
+import { collectPublicSignals } from "@/lib/collector";
 import { generateWeeklyBrief, getPrioritizedSignals } from "@/lib/intelligence";
 import { sourceRegistry } from "@/lib/source-registry";
 
-export default function WeeklyBriefGeneratorPage() {
+export default async function WeeklyBriefGeneratorPage() {
   const brief = generateWeeklyBrief();
   const signals = getPrioritizedSignals();
+  const collection = await collectPublicSignals({
+    liveFetch: process.env.SIGNALFLOW_LIVE_FETCH === "true"
+  });
 
   return (
     <>
@@ -156,6 +160,7 @@ export default function WeeklyBriefGeneratorPage() {
 
       <WeeklyIntelModule
         brief={brief}
+        collectedSignals={collection.signals}
         signals={signals}
         sourceRegistry={sourceRegistry}
       />

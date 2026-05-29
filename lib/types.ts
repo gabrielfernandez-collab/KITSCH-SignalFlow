@@ -148,3 +148,67 @@ export interface WeeklyBrief {
   sourceLog: SourceLogEntry[];
   copyReadyReport: string;
 }
+
+export type PublicSourceType = "Website" | "Social" | "Ad Library";
+
+export type PublicSignalType =
+  | "product_launch"
+  | "pricing_move"
+  | "promotion"
+  | "campaign_angle"
+  | "category_trend"
+  | "messaging_shift";
+
+export interface PublicCompetitorConfig {
+  name: string;
+  website: string;
+  instagram: string;
+  tiktok: string;
+  facebookAds: string;
+  category: string;
+}
+
+export interface RawCollectedSignal {
+  competitor: string;
+  sourceType: PublicSourceType;
+  signalType: PublicSignalType;
+  title: string;
+  summary: string;
+  evidence: string;
+  sourceUrl: string;
+  collectedAt: string;
+  metadata?: Record<string, string>;
+}
+
+export interface NormalizedSignal {
+  id: string;
+  competitor: string;
+  sourceType: PublicSourceType;
+  signalType: PublicSignalType;
+  title: string;
+  summary: string;
+  evidence: string;
+  sourceUrl: string;
+  collectedAt: string;
+}
+
+export interface QualitativeSignalScore {
+  relevance: ConfidenceLevel;
+  impact: ConfidenceLevel;
+  confidence: ConfidenceLevel;
+  urgency: ConfidenceLevel;
+}
+
+export interface ScoredPublicSignal extends NormalizedSignal {
+  score: QualitativeSignalScore;
+  executivePriority: boolean;
+  whyItMatters: string;
+  recommendedAction: string;
+}
+
+export interface PublicCollectionResult {
+  mode: "live-public-fetch" | "mvp-public-connectors";
+  collectedAt: string;
+  signals: ScoredPublicSignal[];
+  suppressedSignals: ScoredPublicSignal[];
+}

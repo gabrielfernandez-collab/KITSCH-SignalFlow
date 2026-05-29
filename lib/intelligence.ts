@@ -140,7 +140,9 @@ export function formatBriefForCopy(brief: Omit<WeeklyBrief, "copyReadyReport">) 
     "Top Signals This Week",
     ...brief.topSignals.map(
       (signal, index) =>
-        `${index + 1}. ${signal.title} - ${signal.summary} Action: ${
+        `${index + 1}. ${signal.title}\nWHAT HAPPENED: ${
+          signal.summary
+        }\nWHY IT MATTERS: ${signal.whyItMatters}\nRECOMMENDED ACTION: ${
           signal.recommendedAction
         }`
     ),

@@ -1,410 +1,237 @@
-# AGENTS.md
+Read AGENTS.md and implement the following enhancement.
 
-# KITSCH SignalFlow
+GOAL
 
-## Weekly Competitive Intelligence Module
+Upgrade KITSCH SignalFlow so it demonstrates real public data collection from competitor sources rather than relying solely on seeded data.
 
-### Objective
+This is an assessment project.
 
-Build a working module that can be plugged into an existing dashboard to generate weekly competitive intelligence for KITSCH.
+The objective is not large-scale scraping infrastructure.
 
-The module should monitor public market signals across hair accessories, on-brand consumables, and adjacent products in the KITSCH competitive landscape.
+The objective is to demonstrate a practical and maintainable approach to collecting public competitive intelligence.
 
-This is not a prompt library, mockup, or template exercise. It must be a working software module.
+REQUIREMENTS
 
----
+Create a Public Signal Collection Layer.
 
-# Assessment Requirements
+The system should support three source categories:
 
-The module must:
+1. Competitor Websites
+2. Public Social Sources
+3. Public Ad Library Sources
 
-1. Pull only public data from:
+Implement a configurable source registry.
 
-   * Competitor websites
-   * Public social channels
-   * Public ad libraries
+Create:
 
-2. Produce a structured weekly brief covering:
+data/competitors.json
 
-   * Competitor launches
-   * Pricing moves
-   * Campaign angles
+Each competitor should contain:
 
-3. Demonstrate:
+{
+"name": "",
+"website": "",
+"instagram": "",
+"tiktok": "",
+"facebookAds": "",
+"category": ""
+}
 
-   * Research depth
-   * Judgment calls
-   * Clear output structure
-   * Ability to separate signal from noise
+INITIAL COMPETITORS
 
-4. Be useful in week one:
+Add several competitors relevant to KITSCH.
 
-   * The module should generate an output KITSCH could review immediately.
-   * Avoid over-engineering.
-   * Prioritize a clean, working, useful system.
+Examples:
 
----
+* Slip
+* Invisibobble
+* Scunci
+* Goody
+* Teleties
+* Crown Affair
 
-# Evaluation Criteria
+PUBLIC WEBSITE COLLECTION
 
-The build will be evaluated on:
+Implement:
 
-* How the candidate thinks through real problems
-* Taste in what matters and what to ignore
-* How the output is structured so KITSCH can act on it
-* Quality of code and build
-* Practical usefulness over polished templates
-* Communication and check-ins during the 5-day window
+lib/collectors/websiteCollector.ts
 
----
+Capabilities:
 
-# Deliverables
+* Fetch public HTML pages
+* Extract:
 
-The final submission must include:
+  * Page title
+  * Product title
+  * Price
+  * Promotional copy
+  * Meta description
 
-1. Working module committed to an accessible GitHub repository
+Generate normalized signals.
 
-2. Sample weekly competitive intelligence brief
+Signal examples:
 
-3. Brief README explaining:
+{
+type: "product_launch",
+competitor: "Slip",
+title: "...",
+sourceUrl: "...",
+evidence: "...",
+collectedAt: "..."
+}
 
-   * What the module does
-   * How to run it
-   * Data sources used
-   * Architecture overview
-   * Known limitations
-   * Suggested next iterations
+SOCIAL SIGNAL COLLECTION
 
----
+Implement:
 
-# Product Definition
+lib/collectors/socialCollector.ts
 
-KITSCH SignalFlow is a weekly competitive intelligence module that collects public market signals, analyzes them, and produces an executive-ready brief.
+For MVP:
 
-The module should help KITSCH answer:
+Collect public page information only.
 
-* What did competitors launch this week?
-* What pricing or promotional moves occurred?
-* What campaign angles are competitors using?
-* What matters?
-* What can be ignored?
-* What should KITSCH consider doing next?
+Examples:
 
----
+* Profile descriptions
+* Recent visible post titles if available
+* Public metadata
 
-# Core Product Flow
+If live collection is unreliable, create a connector structure that demonstrates how public social sources are ingested.
 
-1. Collect public competitor data
+The architecture must support future expansion.
 
-2. Normalize the data into structured records
+AD LIBRARY COLLECTION
 
-3. Analyze the records for meaningful changes
+Implement:
 
-4. Generate an executive weekly brief
+lib/collectors/adLibraryCollector.ts
 
-5. Display the brief in a dashboard-ready format
+For MVP:
 
----
+Support public ad library URLs.
 
-# Recommended MVP Scope
+Capture:
 
-Build only what is necessary to satisfy the assessment.
+* Ad source URL
+* Campaign headline
+* Campaign copy if available
+* Campaign theme
 
-## MVP Features
+Normalize results into signals.
 
-### 1. Competitor Source Registry
+SIGNAL NORMALIZATION
 
-Create a configurable list of competitors and public sources.
+Create:
 
-Each competitor should include:
+lib/signals/normalizeSignal.ts
 
-* Competitor name
-* Website URL
-* Product/category focus
-* Social source URL if available
-* Ad library URL if available
-* Notes on why this competitor matters
+Every signal should contain:
 
----
+id
+competitor
+sourceType
+signalType
+title
+summary
+evidence
+sourceUrl
+collectedAt
 
-### 2. Public Data Pull
+JUDGMENT LAYER
 
-Implement a working data pull from public sources.
+Create:
 
-For the MVP, prioritize reliability over breadth.
+lib/scoring/scoreSignal.ts
 
-Recommended approach:
+Score every signal on:
 
-* Pull product/page data from selected competitor websites
-* Use public URLs
-* Store collected snapshots locally or in a simple database
-* Include seeded/sample data if live source access is limited
+* Relevance
+* Impact
+* Confidence
+* Urgency
 
-Do not use private data, credentials, or restricted APIs.
+Return:
 
----
+Low
+Medium
+High
 
-### 3. Competitive Signal Model
+EXECUTIVE FILTER
 
-Normalize findings into a consistent structure.
+Create logic that prioritizes:
 
-Each signal should include:
+High relevance
+High impact
 
-* Competitor
-* Signal type
-* Source URL
-* Date collected
-* Summary
-* Evidence
-* Strategic relevance
-* Confidence level
-* Recommended action
+and suppresses low-value noise.
 
-Signal types:
+WEEKLY BRIEF
 
-* Product launch
-* Pricing move
-* Promotion
-* Campaign angle
-* Category trend
-* Messaging shift
+Update the Weekly Brief Generator.
 
----
+Each insight must include:
 
-### 4. Judgment Layer
+WHAT HAPPENED
 
-Every signal should be scored.
+WHY IT MATTERS
 
-Use a simple scoring model:
+RECOMMENDED ACTION
 
-* Relevance to KITSCH: 1-5
-* Potential business impact: 1-5
-* Confidence level: Low / Medium / High
-* Urgency: Low / Medium / High
+Example:
 
-Only high-quality signals should appear in the executive summary.
+Competitor:
+Slip
 
-This demonstrates taste in what matters and what to ignore.
+Signal:
+New premium silk styling collection
 
----
+Why it matters:
+Signals continued premium positioning in hair care accessories.
 
-### 5. Weekly Brief Generator
+Recommended action:
+Monitor overlap with KITSCH premium product roadmap.
 
-Generate a structured weekly brief with the following sections:
+UI ENHANCEMENTS
 
-1. Executive Summary
+Add:
 
-2. Top Signals This Week
+Source Type badges:
 
-3. Competitor Launches
+* Website
+* Social
+* Ad Library
 
-4. Pricing Moves
+Add:
 
-5. Campaign Angles
+Evidence links
 
-6. What Matters
+Add:
 
-7. What to Ignore
+Collected timestamp
 
-8. Recommended Actions
+README UPDATE
 
-9. Source Log
+Add a section:
 
-The brief must be clear, concise, and actionable.
+Public Data Collection Strategy
 
----
+Explain:
 
-### 6. Dashboard-Ready UI
+* What sources are collected live
+* What sources are simulated for MVP purposes
+* Why this approach was chosen
+* How it could be expanded in production
 
-Create a clean dashboard module with:
+IMPORTANT
 
-* Weekly brief view
-* Signal cards
-* Competitor filter
-* Signal type filter
-* Relevance/impact indicators
-* Source links
-* Export or copy-ready report format
+Do not build aggressive scraping infrastructure.
 
-The UI should look like a module that could be embedded into an existing internal dashboard.
+Do not require private credentials.
 
----
+Do not use restricted APIs.
 
-# Recommended Technical Approach
+Do not over-engineer.
 
-Use a practical stack that can be built within 5 business days.
+Focus on demonstrating a realistic public intelligence collection workflow that satisfies the KITSCH assessment requirements.
 
-Recommended stack:
-
-* Next.js
-* TypeScript
-* Tailwind CSS
-* shadcn/ui
-* Local JSON or SQLite for MVP storage
-* Optional Supabase if time allows
-* OpenAI API or mock AI summarization layer if API setup is limited
-
-Prioritize:
-
-* Working flow
-* Clean architecture
-* Clear README
-* Sample output
-
-Do not prioritize:
-
-* Complex authentication
-* Large-scale scraping infrastructure
-* Overly complex database design
-* Perfect automation
-* Too many integrations
-
----
-
-# Suggested Project Structure
-
-```text
-kitsch-signalflow/
-├── app/
-│   ├── page.tsx
-│   ├── brief/
-│   ├── competitors/
-│   └── signals/
-├── components/
-│   ├── dashboard/
-│   ├── brief/
-│   └── signals/
-├── lib/
-│   ├── collectors/
-│   ├── analyzers/
-│   ├── brief-generator/
-│   ├── scoring/
-│   └── data/
-├── data/
-│   ├── competitors.json
-│   ├── sample-signals.json
-│   └── sample-weekly-brief.json
-├── docs/
-│   ├── assessment-notes.md
-│   ├── data-sources.md
-│   └── weekly-brief-sample.md
-├── README.md
-└── AGENTS.md
-```
-
----
-
-# Data Collection Guidance
-
-Because this is a timeboxed assessment, build the module so it can support live public collection but also works with seeded sample data.
-
-Acceptable MVP pattern:
-
-1. Use configured public competitor URLs
-
-2. Fetch available public page content where technically feasible
-
-3. Parse simple signals such as:
-
-   * Product title
-   * Price
-   * Promo text
-   * Page title
-   * Meta description
-   * Campaign copy
-
-4. Store normalized results
-
-5. Generate analysis and brief
-
-6. Include seeded examples to demonstrate the full workflow
-
-Be transparent in the README about what is live, what is sample, and what would be automated in the next iteration.
-
----
-
-# Competitor Examples
-
-Use competitors relevant to KITSCH’s landscape, such as:
-
-* Hair accessories brands
-* Heatless styling brands
-* Beauty consumables brands
-* Wellness/personal care brands
-* Beauty lifestyle brands
-
-Do not hardcode conclusions without evidence.
-
-Every finding should include a source URL or sample evidence.
-
----
-
-# Output Quality Standard
-
-The weekly brief should read like something a COO or merchandising leader can use immediately.
-
-Avoid vague observations.
-
-Weak output:
-
-“Competitor A posted on Instagram.”
-
-Strong output:
-
-“Competitor A is emphasizing heatless styling as a damage-prevention solution, suggesting continued consumer demand for low-heat hair routines. KITSCH should monitor whether this messaging overlaps with its own heatless curl positioning.”
-
----
-
-# README Requirements
-
-The README must include:
-
-1. Project name and short description
-
-2. What problem it solves
-
-3. Features
-
-4. Tech stack
-
-5. How to run locally
-
-6. How to generate the sample weekly brief
-
-7. Data source approach
-
-8. Architecture
-
-9. Tradeoffs made due to the 5-day timebox
-
-10. Suggested next steps
-
----
-
-# Communication Expectations
-
-During the build, maintain clear documentation of decisions.
-
-Include a short section in the README or docs explaining:
-
-* What was prioritized
-* What was intentionally ignored
-* What assumptions were made
-* What would be improved with more time
-
-This directly addresses the evaluation criteria around judgment, communication, and problem-solving.
-
----
-
-# Definition of Done
-
-The project is complete when:
-
-* The app runs locally
-* The dashboard displays competitive signals
-* The module generates or displays a weekly brief
-* Signals include evidence and source references
-* The repo includes a clear README
-* A sample weekly brief is included
-* The implementation is clean enough to iterate on
-* The project demonstrates practical judgment, not over-engineering
+The final result should clearly show that SignalFlow can collect, normalize, analyze, and report on public competitive signals.

@@ -1,101 +1,60 @@
-import type { CompetitorSourceRegistryEntry } from "@/lib/types";
+import competitors from "@/data/competitors.json";
+import type {
+  CompetitorSource,
+  CompetitorSourceRegistryEntry,
+  PublicCompetitorConfig
+} from "@/lib/types";
 
-export const sourceRegistry: CompetitorSourceRegistryEntry[] = [
-  {
-    id: "heatless-hair",
-    competitorName: "Heatless Hair",
-    websiteUrl: "https://heatlesshair.com",
-    productFocus: "Heatless styling tools and satin curl systems",
-    socialSourceUrl: "https://www.tiktok.com/@heatlesshair",
-    adLibraryUrl: "https://www.facebook.com/ads/library/",
-    whyItMatters:
-      "Directly overlaps with KITSCH heatless styling and satin accessory demand moments.",
-    sources: [
-      {
-        id: "heatless-site",
-        label: "Shopify storefront",
-        kind: "shopify",
-        url: "https://heatlesshair.com",
-        notes: "Product architecture, pricing, bundles, and campaign landing pages."
-      },
-      {
-        id: "heatless-tiktok",
-        label: "TikTok profile",
-        kind: "social",
-        url: "https://www.tiktok.com/@heatlesshair",
-        notes: "Tutorial hooks and consumer-facing use cases."
-      }
-    ]
-  },
-  {
-    id: "dae",
-    competitorName: "Dae",
-    websiteUrl: "https://daehair.com",
-    productFocus: "Clean haircare, scalp care, and routine-led consumables",
-    socialSourceUrl: "https://www.instagram.com/daehair",
-    adLibraryUrl: "https://www.facebook.com/ads/library/",
-    whyItMatters:
-      "Signals where beauty consumers are moving between accessories, prep, and consumable routines.",
-    sources: [
-      {
-        id: "dae-site",
-        label: "Brand website",
-        kind: "website",
-        url: "https://daehair.com",
-        notes: "Launch and PDP messaging for haircare routines."
-      },
-      {
-        id: "dae-instagram",
-        label: "Instagram profile",
-        kind: "social",
-        url: "https://www.instagram.com/daehair",
-        notes: "Campaign themes and creative language."
-      }
-    ]
-  },
-  {
-    id: "crown-affair",
-    competitorName: "Crown Affair",
-    websiteUrl: "https://www.crownaffair.com",
-    productFocus: "Premium hair rituals, tools, brushes, towels, and accessories",
-    socialSourceUrl: "https://www.instagram.com/crownaffair",
-    adLibraryUrl: "https://www.facebook.com/ads/library/",
-    whyItMatters:
-      "Premium positioning shows how routine architecture can raise willingness to pay for hair tools.",
-    sources: [
-      {
-        id: "crown-site",
-        label: "Brand website",
-        kind: "website",
-        url: "https://www.crownaffair.com",
-        notes: "Assortment, routine builder, and bundle strategy."
-      }
-    ]
-  },
-  {
-    id: "slip",
-    competitorName: "Slip",
-    websiteUrl: "https://www.slip.com",
-    productFocus: "Silk sleep, beauty, and hair accessories",
-    socialSourceUrl: "https://www.instagram.com/slipsilkpillowcase",
-    adLibraryUrl: "https://www.facebook.com/ads/library/",
-    whyItMatters:
-      "Useful benchmark for premium accessory pricing, gifting, and discount containment.",
-    sources: [
-      {
-        id: "slip-site",
-        label: "Shopify storefront",
-        kind: "shopify",
-        url: "https://www.slip.com",
-        notes: "Bundle pricing, gifting pages, and promotion depth."
-      },
-      {
-        id: "slip-ads",
-        label: "Meta Ad Library",
-        kind: "ad-library",
-        url: "https://www.facebook.com/ads/library/",
-        notes: "Public ad concepts and promotional framing."
-      }
-    ]
-  }
-];
+const competitorConfigs = competitors as PublicCompetitorConfig[];
+
+function buildSources(competitor: PublicCompetitorConfig): CompetitorSource[] {
+  return [
+    {
+      id: `${competitor.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-website`,
+      label: "Website",
+      kind: "website",
+      url: competitor.website,
+      notes: "Public HTML source for titles, meta descriptions, prices, and promotional copy."
+    },
+    competitor.instagram
+      ? {
+          id: `${competitor.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-instagram`,
+          label: "Instagram",
+          kind: "social",
+          url: competitor.instagram,
+          notes: "Public social profile URL for campaign and messaging monitoring."
+        }
+      : undefined,
+    competitor.tiktok
+      ? {
+          id: `${competitor.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-tiktok`,
+          label: "TikTok",
+          kind: "social",
+          url: competitor.tiktok,
+          notes: "Public social profile URL for creator-style hooks and visible metadata."
+        }
+      : undefined,
+    competitor.facebookAds
+      ? {
+          id: `${competitor.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-ads`,
+          label: "Meta Ad Library",
+          kind: "ad-library",
+          url: competitor.facebookAds,
+          notes: "Public ad library entry point for campaign headline and theme monitoring."
+        }
+      : undefined
+  ].filter((source): source is CompetitorSource => Boolean(source));
+}
+
+export const sourceRegistry: CompetitorSourceRegistryEntry[] = competitorConfigs.map(
+  (competitor) => ({
+    id: competitor.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+    competitorName: competitor.name,
+    websiteUrl: competitor.website,
+    productFocus: competitor.category,
+    socialSourceUrl: competitor.instagram || competitor.tiktok,
+    adLibraryUrl: competitor.facebookAds,
+    whyItMatters: `${competitor.name} is relevant to KITSCH because it competes in ${competitor.category.toLowerCase()}.`,
+    sources: buildSources(competitor)
+  })
+);
