@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 31 23% 94%;
+  --foreground: 0 0% 8%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 8%;
+  --muted: 32 16% 89%;
+  --muted-foreground: 26 8% 38%;
+  --border: 30 12% 82%;
+  --input: 30 12% 82%;
+  --ring: 158 46% 54%;
+  --primary: 0 0% 8%;
+  --primary-foreground: 31 23% 94%;
+}
+
+.dark {
+  --background: 0 0% 6%;
+  --foreground: 31 23% 94%;
+  --card: 0 0% 10%;
+  --card-foreground: 31 23% 94%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 32 9% 66%;
+  --border: 0 0% 19%;
+  --input: 0 0% 19%;
+  --ring: 158 46% 54%;
+  --primary: 31 23% 94%;
+  --primary-foreground: 0 0% 8%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  min-height: 100%;
+  background: hsl(var(--background));
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 340px),
+    hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(125, 211, 168, 0.3);
+}
