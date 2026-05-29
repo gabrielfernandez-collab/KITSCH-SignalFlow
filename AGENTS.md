@@ -1,146 +1,22 @@
-Read AGENTS.md.
+Refactor the Executive Dashboard information hierarchy to improve executive scanability, reduce content overload, and align the experience with how leadership teams consume intelligence.
 
-Review the "Leadership Attention Required" section.
+Scope:
 
-GOAL
+- Relocate detailed recommendations from the Brief workspace into the dedicated Actions workspace
+- Convert Leadership Attention Required into a concise executive summary section
+- Reduce excessive vertical content and long recommendation panels
+- Transform Market Narrative into a compact Market Story / Intelligence Snapshot component
+- Prioritize quick executive consumption over long-form reading
+- Surface only the highest-priority actions in the Brief workspace
+- Move detailed analysis, rationale, supporting signals, and evidence into deeper workspaces
+- Improve visual balance across the Executive Dashboard
+- Create a clear separation between executive summaries and detailed intelligence
+- Reduce cognitive load and scrolling requirements
 
-Transform the current recommendation cards into executive briefing panels.
+Objective:
 
-The current layout is too narrow, too vertical, and forces excessive text wrapping.
+Ensure leadership can understand what changed, why it matters, and what requires attention within 30 seconds while preserving access to deeper intelligence through dedicated workspaces.
 
-Leadership should be able to scan recommendations quickly.
+Expected Outcome:
 
----
-
-CURRENT PROBLEMS
-
-* Cards are too narrow
-* Excessive line wrapping
-* High vertical scrolling
-* Weak visual hierarchy
-* Recommendation content feels cramped
-* Supporting signals receive too much visual weight
-
----
-
-NEW DESIGN
-
-Replace narrow recommendation cards with wider strategic briefing panels.
-
-Desktop:
-
-Stack recommendations vertically.
-
-Do NOT display three narrow columns.
-
-Preferred layout:
-
-Recommendation 1
-Recommendation 2
-Recommendation 3
-
-Each recommendation should have enough width to reduce text wrapping.
-
----
-
-PANEL STRUCTURE
-
-Priority
-
-Critical / High / Medium
-
-Headline
-
-Recommendation title
-
-Why It Matters
-
-Business context
-
-Recommended Action
-
-Leadership recommendation
-
-Supporting Signals
-
-Tags
-
-Confidence
-
-Visible indicator
-
----
-
-VISUAL HIERARCHY
-
-Most important:
-
-1. Recommendation title
-2. Why It Matters
-3. Recommended Action
-
-Least important:
-
-Supporting Signals
-
----
-
-SPACING
-
-Increase:
-
-* Card padding
-* Line height
-* Section spacing
-
-Reduce:
-
-* Visual clutter
-* Dense wrapping
-
----
-
-DESIGN INSPIRATION
-
-Think:
-
-Executive Briefing
-Consulting Report
-Board Presentation
-
-Not:
-
-Analytics Dashboard
-
----
-
-RESPONSIVENESS
-
-Desktop:
-
-Single-column briefing panels
-
-Tablet:
-
-Single-column briefing panels
-
-Mobile:
-
-Single-column briefing panels
-
-Avoid multi-column recommendation layouts.
-
----
-
-SUCCESS CRITERIA
-
-A COO should be able to:
-
-* Read all three recommendations quickly
-* Understand why each matters
-* Understand what action is suggested
-* Understand confidence level
-
-without reading narrow wrapped paragraphs.
-
-The final section should feel like a strategic briefing rather than dashboard cards.
+A cleaner Executive Brief experience that feels like a leadership briefing rather than a report, with details available on demand through Actions, Signals, and Evidence workspaces.

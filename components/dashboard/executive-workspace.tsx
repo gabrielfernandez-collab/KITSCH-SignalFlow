@@ -11,7 +11,6 @@ import { SignalCard } from "@/components/dashboard/signal-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import type {
   CampaignTheme,
   CompetitorSourceRegistryEntry,
@@ -132,6 +131,7 @@ export function ExecutiveWorkspace({
         )}
         {active === "actions" && (
           <ActionsPanel
+            leadershipActions={leadershipActions}
             recommendations={recommendations}
             productLaunches={productLaunches}
             campaignThemes={campaignThemes}
@@ -242,11 +242,10 @@ function BriefPanel({
             <CardHeader>
               <CardTitle>Leadership Attention Required</CardTitle>
               <p className="text-sm leading-6 text-muted-foreground">
-                Prioritized strategic recommendations for the next planning
-                conversation.
+                Three strategic priorities for this week&apos;s planning conversation.
               </p>
             </CardHeader>
-            <CardContent className="space-y-5">
+            <CardContent className="space-y-3">
               {leadershipActions.map((item, index) => {
                 const priorityLabel =
                   index === 0 ? "Critical" : index === 1 ? "High" : "Medium";
@@ -254,44 +253,15 @@ function BriefPanel({
                   index === 0 ? "rose" : index === 1 ? "amber" : "cyan";
                 return (
                   <div
-                    className="rounded-lg border border-white/10 bg-white/[0.03] p-6"
+                    className="flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-4"
                     key={item.id}
                   >
-                    <div className="flex items-start justify-between gap-4">
-                      <Badge tone={priorityTone}>{priorityLabel}</Badge>
-                      <Badge>{item.confidence} confidence</Badge>
-                    </div>
-                    <h4 className="mt-4 text-base font-semibold leading-7 text-foreground">
+                    <Badge tone={priorityTone} className="shrink-0 mt-0.5">
+                      {priorityLabel}
+                    </Badge>
+                    <p className="text-sm leading-6 text-foreground">
                       {item.title}
-                    </h4>
-                    <div className="mt-5 space-y-4">
-                      <div>
-                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                          Why It Matters
-                        </p>
-                        <p className="mt-2 text-sm leading-7 text-foreground">
-                          {item.whyItMatters}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                          Recommended Action
-                        </p>
-                        <p className="mt-2 text-sm leading-7 text-foreground">
-                          {item.action}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-5">
-                      <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                        Supporting Signals
-                      </p>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {item.supportingSignals.map((signal) => (
-                          <Badge key={signal}>{signal}</Badge>
-                        ))}
-                      </div>
-                    </div>
+                    </p>
                   </div>
                 );
               })}
@@ -301,67 +271,38 @@ function BriefPanel({
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <CardTitle>Market Narrative</CardTitle>
-                <Badge tone="amber">Seeded Demonstration Data</Badge>
+                <CardTitle>Market Story</CardTitle>
+                <Badge tone="amber">Snapshot</Badge>
               </div>
               <p className="text-sm leading-6 text-muted-foreground">
-                The short version of what is changing across the market and why
-                it matters.
+                What is changing across the market this week.
               </p>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-sm leading-6 text-foreground">
-                {weeklyBrief.executiveSummary}
-              </p>
-              <Separator />
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="rounded-md border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-xs font-meta uppercase tracking-[0.18em] text-muted-foreground">
-                    Market trends
+              <div className="space-y-2">
+                {weeklyBrief.marketTrends.map((trend) => (
+                  <p className="text-sm leading-6 text-foreground" key={trend}>
+                    {trend}
                   </p>
-                  <div className="mt-3 space-y-2">
-                    {weeklyBrief.marketTrends.map((trend) => (
-                      <p
-                        className="text-sm leading-6 text-muted-foreground"
-                        key={trend}
-                      >
-                        {trend}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-                <div className="rounded-md border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-xs font-meta uppercase tracking-[0.18em] text-muted-foreground">
-                    What to ignore
-                  </p>
-                  <div className="mt-3 space-y-2">
-                    {weeklyBrief.whatToIgnore.map((item) => (
-                      <p
-                        className="text-sm leading-6 text-muted-foreground"
-                        key={item}
-                      >
-                        {item}
-                      </p>
-                    ))}
-                  </div>
+                ))}
+              </div>
+              <div className="rounded-md border border-white/10 bg-black/10 p-3">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Ignore
+                </p>
+                <div className="mt-2 space-y-1">
+                  {weeklyBrief.whatToIgnore.map((item) => (
+                    <p className="text-sm leading-6 text-muted-foreground" key={item}>
+                      {item}
+                    </p>
+                  ))}
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <aside className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Executive Summary</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm leading-6 text-muted-foreground">
-                {weeklyBrief.executiveSummary}
-              </p>
-            </CardContent>
-          </Card>
-
+        <aside className="space-y-6 w-full max-w-sm">
           <Card>
             <CardHeader>
               <CardTitle>Top Signals Summary</CardTitle>
@@ -377,7 +318,7 @@ function BriefPanel({
                   </p>
                   <p className="mt-1 text-xs leading-5 text-muted-foreground">
                     {signal.competitor} &middot; {signal.score.confidence}{" "}
-                    confidence &middot; {signal.signalType}
+                    confidence
                   </p>
                 </div>
               ))}
@@ -392,12 +333,14 @@ function BriefPanel({
 /* ─── ACTIONS PANEL ─────────────────────────────────── */
 
 function ActionsPanel({
+  leadershipActions,
   recommendations,
   productLaunches,
   campaignThemes,
   pricingSignals,
   signals
 }: {
+  leadershipActions: LeadershipAction[];
   recommendations: Recommendation[];
   productLaunches: ProductLaunch[];
   campaignThemes: CampaignTheme[];
@@ -406,6 +349,65 @@ function ActionsPanel({
 }) {
   return (
     <section className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Detailed Leadership Actions</CardTitle>
+          <p className="text-sm leading-6 text-muted-foreground">
+            Full analysis and evidence supporting each strategic priority.
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          {leadershipActions.map((item, index) => {
+            const priorityLabel =
+              index === 0 ? "Critical" : index === 1 ? "High" : "Medium";
+            const priorityTone =
+              index === 0 ? "rose" : index === 1 ? "amber" : "cyan";
+            return (
+              <div
+                className="rounded-lg border border-white/10 bg-white/[0.03] p-6"
+                key={item.id}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <Badge tone={priorityTone}>{priorityLabel}</Badge>
+                  <Badge>{item.confidence} confidence</Badge>
+                </div>
+                <h4 className="mt-4 text-base font-semibold leading-7 text-foreground">
+                  {item.title}
+                </h4>
+                <div className="mt-5 space-y-4">
+                  <div>
+                    <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      Why It Matters
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-foreground">
+                      {item.whyItMatters}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      Recommended Action
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-foreground">
+                      {item.action}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-5">
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    Supporting Signals
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {item.supportingSignals.map((signal) => (
+                      <Badge key={signal}>{signal}</Badge>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Recommended Leadership Actions</CardTitle>
