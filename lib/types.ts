@@ -129,6 +129,7 @@ export interface LeadershipAction {
   id: string;
   title: string;
   action: string;
+  whyItMatters: string;
   confidence: ConfidenceLevel;
   supportingSignals: string[];
 }

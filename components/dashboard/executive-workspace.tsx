@@ -242,40 +242,59 @@ function BriefPanel({
             <CardHeader>
               <CardTitle>Leadership Attention Required</CardTitle>
               <p className="text-sm leading-6 text-muted-foreground">
-                Prioritized actions that should shape the next planning
+                Prioritized strategic recommendations for the next planning
                 conversation.
               </p>
             </CardHeader>
-            <CardContent className="grid gap-4 lg:grid-cols-3">
-              {leadershipActions.map((item, index) => (
-                <div
-                  className="rounded-lg border border-white/10 bg-white/[0.03] p-4"
-                  key={item.id}
-                >
-                  <div className="flex flex-wrap gap-2">
-                    <Badge tone={index === 0 ? "rose" : "amber"}>
-                      Action #{index + 1}
-                    </Badge>
-                    <Badge>{item.confidence} confidence</Badge>
-                  </div>
-                  <p className="mt-3 text-sm font-semibold text-foreground">
-                    {item.title}
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    {item.action}
-                  </p>
-                  <div className="mt-4">
-                    <p className="text-xs font-meta uppercase tracking-[0.18em] text-muted-foreground">
-                      Supporting signals
-                    </p>
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {item.supportingSignals.map((signal) => (
-                        <Badge key={signal}>{signal}</Badge>
-                      ))}
+            <CardContent className="space-y-5">
+              {leadershipActions.map((item, index) => {
+                const priorityLabel =
+                  index === 0 ? "Critical" : index === 1 ? "High" : "Medium";
+                const priorityTone =
+                  index === 0 ? "rose" : index === 1 ? "amber" : "cyan";
+                return (
+                  <div
+                    className="rounded-lg border border-white/10 bg-white/[0.03] p-6"
+                    key={item.id}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <Badge tone={priorityTone}>{priorityLabel}</Badge>
+                      <Badge>{item.confidence} confidence</Badge>
+                    </div>
+                    <h4 className="mt-4 text-base font-semibold leading-7 text-foreground">
+                      {item.title}
+                    </h4>
+                    <div className="mt-5 space-y-4">
+                      <div>
+                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                          Why It Matters
+                        </p>
+                        <p className="mt-2 text-sm leading-7 text-foreground">
+                          {item.whyItMatters}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                          Recommended Action
+                        </p>
+                        <p className="mt-2 text-sm leading-7 text-foreground">
+                          {item.action}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-5">
+                      <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                        Supporting Signals
+                      </p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {item.supportingSignals.map((signal) => (
+                          <Badge key={signal}>{signal}</Badge>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </CardContent>
           </Card>
 
@@ -395,30 +414,35 @@ function ActionsPanel({
             brief.
           </p>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {recommendations.map((recommendation) => (
-            <div
-              className="rounded-lg border border-white/10 bg-white/[0.03] p-4"
-              key={recommendation.id}
-            >
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge
-                  tone={
-                    recommendation.priority === "critical" ? "rose" : "amber"
-                  }
-                >
-                  {recommendation.priority}
-                </Badge>
-                <Badge>{recommendation.owner}</Badge>
+        <CardContent className="space-y-5">
+          {recommendations.map((recommendation) => {
+            const priorityTone =
+              recommendation.priority === "critical" ? "rose" : "amber";
+            return (
+              <div
+                className="rounded-lg border border-white/10 bg-white/[0.03] p-6"
+                key={recommendation.id}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <Badge tone={priorityTone}>
+                    {recommendation.priority}
+                  </Badge>
+                  <Badge>{recommendation.owner}</Badge>
+                </div>
+                <h4 className="mt-4 text-base font-semibold leading-7 text-foreground">
+                  {recommendation.title}
+                </h4>
+                <div className="mt-5">
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    Recommended Action
+                  </p>
+                  <p className="mt-2 text-sm leading-7 text-foreground">
+                    {recommendation.action}
+                  </p>
+                </div>
               </div>
-              <p className="mt-2 text-sm font-medium text-foreground">
-                {recommendation.title}
-              </p>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                {recommendation.action}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </CardContent>
       </Card>
 

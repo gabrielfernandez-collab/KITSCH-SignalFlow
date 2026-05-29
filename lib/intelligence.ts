@@ -39,6 +39,8 @@ export function getLeadershipActions(): LeadershipAction[] {
       title: "Own travel-oriented hair routines before competitors define the occasion.",
       action:
         "Build a KITSCH travel hair routine offer that connects heatless styling, clips, towels, and beauty organization.",
+      whyItMatters:
+        "Heatless Hair and Slip are both positioning around summer travel occasions. Without a KITSCH travel routine narrative, competitors will define this category-first connection.",
       confidence: "High",
       supportingSignals: ["Heatless Hair", "Slip"]
     },
@@ -47,6 +49,8 @@ export function getLeadershipActions(): LeadershipAction[] {
       title: "Defend heatless styling value without immediately matching markdowns.",
       action:
         "Test PDP and paid-social messaging around comfort, durability, and complete routine value.",
+      whyItMatters:
+        "Heatless Hair lowered entry pricing on curl sets to $24. Matching the markdown directly would erode KITSCH margin without addressing the underlying value perception gap.",
       confidence: "High",
       supportingSignals: ["Heatless Hair"]
     },
@@ -55,6 +59,8 @@ export function getLeadershipActions(): LeadershipAction[] {
       title: "Use routine-building mechanics to raise attachment in premium tools.",
       action:
         "Pilot routine-builder modules and bundle prompts before adding deeper promotional discounts.",
+      whyItMatters:
+        "Crown Affair and Dae are increasing perceived value through merchandising architecture and routine-led content rather than price cuts, protecting premium positioning.",
       confidence: "Medium",
       supportingSignals: ["Crown Affair", "Dae"]
     }
