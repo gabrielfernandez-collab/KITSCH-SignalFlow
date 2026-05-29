@@ -1,6 +1,6 @@
 # KITSCH SignalFlow
 
-AI-Powered Competitive Intelligence Engine
+Competitive Intelligence Engine
 
 A competitive intelligence platform designed to monitor competitor websites, social
 media channels, and public advertising libraries to generate actionable weekly
@@ -158,6 +158,13 @@ npm run build
 ## Architecture
 
 - `app/(dashboard)` contains the main dashboard experience and route groups.
+- `app/(dashboard)/page.tsx` renders the Executive Intelligence Workspace with 5
+  switchable workspaces (Brief, Actions, Signals, Evidence, Collection) via the
+  workspace navigation system.
+- `components/dashboard/workspace-tabs.tsx` implements the workspace navigation
+  bar with keyboard accessibility and localStorage state persistence.
+- `components/dashboard/executive-workspace.tsx` orchestrates workspace switching
+  and houses all workspace content panels.
 - `components/dashboard` contains the application shell and page-specific
   dashboard components.
 - `components/dashboard/weekly-intel-module.tsx` contains the embeddable weekly
@@ -175,6 +182,15 @@ npm run build
   executive filtering.
 - `lib/intelligence.ts` centralizes ranking, weekly brief generation, and summary
   transformations.
+
+Additional route pages accessible from the sidebar navigation:
+
+- `app/(dashboard)/competitors/` — competitor overview with active signal counts
+- `app/(dashboard)/product-launch-radar/` — product launch tracking
+- `app/(dashboard)/pricing-intelligence/` — pricing move monitoring
+- `app/(dashboard)/campaign-intelligence/` — campaign theme analysis
+- `app/(dashboard)/weekly-brief-generator/` — generate and copy weekly brief
+- `app/(dashboard)/assessment/` — reviewer-facing compliance checklist
 
 ## Known Limitations
 

@@ -105,7 +105,7 @@ export function ExecutiveWorkspace({
         }
         description="A Monday operating view of the competitor moves most likely to influence KITSCH product, marketing, pricing, and positioning decisions."
         eyebrow="Executive Intelligence Workspace"
-        title="Monday Leadership Brief"
+        title="Workspace Overview"
       />
 
       <div className="mt-6">
