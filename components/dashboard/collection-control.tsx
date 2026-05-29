@@ -66,7 +66,16 @@ export function CollectionControl({ initialCollection }: CollectionControlProps)
         </div>
       </CardHeader>
       <CardContent className="space-y-5">
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+          <StatusTile
+            label="Collection Mode"
+            status={
+              collection.mode === "live-public-fetch"
+                ? "Live Public Fetch"
+                : "MVP Public Connectors"
+            }
+            tone={collection.mode === "live-public-fetch" ? "green" : "amber"}
+          />
           <StatusTile
             label="Live Website Collection"
             status={
@@ -76,12 +85,12 @@ export function CollectionControl({ initialCollection }: CollectionControlProps)
           />
           <StatusTile
             label="Social Source Collection"
-            status="MVP metadata"
+            status="MVP metadata connector"
             tone="cyan"
           />
           <StatusTile
             label="Ad Library Collection"
-            status="MVP metadata"
+            status="MVP reference connector"
             tone="amber"
           />
           <StatusTile

@@ -1,103 +1,110 @@
-Read AGENTS.md.
+# KITSCH SignalFlow — Project Constitution
 
-You are redesigning KITSCH SignalFlow.
+## Original KITSCH Assessment Objective
 
-Do NOT redesign this as a SaaS dashboard.
+Build a working competitive intelligence module that monitors competitor websites, social media channels, and public advertising libraries to generate actionable weekly market intelligence for KITSCH leadership.
 
-Do NOT redesign this as an analytics platform.
+## Requirements (from Assessment Email)
 
-Do NOT redesign this as an admin panel.
+- Pull only publicly available data
+- Monitor competitor websites
+- Monitor public social sources
+- Monitor public ad library sources
+- Configurable competitor/source registry
+- Normalized signal model
+- Scored signal model (relevance, impact, confidence, urgency)
+- Executive filtering (high-relevance / high-impact signals surfaced, low-value suppressed)
+- Weekly brief generation with executive summary, what happened, why it matters, recommended action
+- Evidence traceability (source links, timestamps, evidence text)
+- Configurable collection workflow
+- Live collection toggle (enabled by env var or query param)
+- Assessment compliance page
+- README documentation with requirement mapping
 
-Design this as a premium Executive Intelligence Platform that could be presented to the leadership teams of Amazon, SpaceX, Tesla, Palantir, Stripe, or KITSCH.
+## Evaluation Criteria
 
-OBJECTIVE
+- Public-data-only constraint strictly followed
+- Signal normalization and scoring correctness
+- Executive filtering usefulness (noise suppression)
+- Evidence traceability completeness
+- Weekly brief quality and actionability
+- Code quality and architecture clarity
+- README completeness and honesty
+- Assessment compliance page accuracy
+- No overclaimed functionality
 
-SignalFlow should feel like a strategic decision-support system used by executives every Monday morning.
+## Deliverables
 
-The application should communicate:
+1. Next.js app with executive dashboard, weekly brief, and collection workflow
+2. Public-source collection layer (website, social, ad-library connectors)
+3. Normalization and scoring pipeline
+4. Configurable competitor registry (`data/competitors.json`)
+5. Sample competitor intelligence dataset with scored signals
+6. README with architecture, strategy, requirement mapping, limitations
+7. Assessment compliance page at `/assessment`
+8. AGENTS.md (this file) as project source of truth
 
-* Intelligence
-* Clarity
-* Authority
-* Credibility
-* Strategic thinking
+## Product Purpose
 
-Replace any generic dashboard aesthetics with a premium intelligence-platform aesthetic.
+KITSCH SignalFlow provides KITSCH leadership with a Monday-morning operating view of competitor moves — product launches, pricing changes, campaign angles, and market trends — distilled from public sources into an executive-ready weekly brief.
 
-DESIGN SYSTEM
+## Data Source Rules
 
-Theme:
-Ultra-premium dark mode
+- All sources must be publicly accessible URLs
+- No credentials, API keys, tokens, or private endpoints
+- No scraping of login-gated or ToS-restricted content
+- Website collection uses public HTTP GET for HTML extraction
+- Social sources use public profile URLs and metadata only (no post scraping)
+- Ad library sources use public entry points and inferred campaign themes
 
-Visual Characteristics:
+## Public-Data-Only Constraint
 
-* High information density
-* Strong typography hierarchy
-* Subtle borders
-* Minimal shadows
-* Precise spacing
-* No oversized cards
-* No marketing-site design patterns
+This is the hard constraint of the assessment. The app must function entirely on:
+- Public HTML pages
+- Public social profile URLs (Instagram, TikTok)
+- Public Meta Ad Library URLs
+- Metadata derived from those public entry points
 
-Typography:
+No private APIs, no authenticated scraping, no credential-based collection.
 
-* Geist or Inter Tight for body text
-* IBM Plex Sans for executive headings
-* Space Grotesk for labels, badges, and intelligence metadata
+## MVP Limitations
 
-VISUAL STRUCTURE
+- Seeded snapshots are used by default for reliable demo in local/review environments
+- Live website collection must be explicitly enabled (`SIGNALFLOW_LIVE_FETCH=true`)
+- Social collection is a metadata connector (profile URLs + category context), not post-level extraction
+- Ad library collection is a reference connector (entry point URL + inferred theme), not creative extraction
+- AI summarization is deterministic TypeScript (not LLM-based) for the MVP
+- Report export is copy-to-clipboard text, not PDF or Google Docs
+- No persistence layer — everything runs in-memory
+- No authentication — dashboard route group is unprotected
 
-The homepage should prioritize:
+## Executive Intelligence Design Principles
 
-1. Monday Leadership Brief
-2. Leadership Attention Required
-3. Recommended Actions
-4. Strategic Signals
-5. Emerging Opportunities
-6. Competitive Risks
-7. Market Narrative
-8. Evidence Feed
+1. **Executive-first**: The weekly brief and signal cards prioritize what leadership needs to know, not raw data volume.
+2. **Noise suppression**: Low-relevance and low-impact signals are suppressed from the executive view.
+3. **Actionable output**: Every signal includes what happened, why it matters, and a recommended action.
+4. **Evidence transparency**: All signals link back to source URLs with collection timestamps and observed text.
+5. **Scored judgment**: Signals carry relevance, impact, confidence, and urgency scores to support triage.
+6. **Honest sourcing**: The UI clearly labels whether data is live-collected, connector-based, or seeded demonstration data.
 
-SIGNALS
+## Definition of Done
 
-Every signal must display:
-
-* What Happened
-* Why It Matters
-* Recommended Action
-* Confidence
-* Evidence
-
-Replace generic activity feeds with intelligence cards.
-
-NAVIGATION
-
-Organize navigation around:
-
-INTELLIGENCE
-ANALYSIS
-COMPETITORS
-OPERATIONS
-
-rather than generic dashboard terminology.
-
-EXECUTIVE EXPERIENCE
-
-The application should feel like:
-
-* Palantir Foundry
-* Bloomberg Terminal
-* Stripe Radar
-* Linear
-
-while remaining approachable and elegant.
-
-FINAL GOAL
-
-When a COO opens SignalFlow, the immediate reaction should be:
-
-"This helps me decide what matters."
-
-not
-
-"This shows me data."
+- [x] Public-source registry (`data/competitors.json`) with 6 competitors and 3 source types each
+- [x] Website collector with live fetch toggle and safe simulated fallback
+- [x] Social collector (MVP metadata connector — Instagram/TikTok profile URLs)
+- [x] Ad library collector (MVP reference connector — Meta Ad Library entry points)
+- [x] Signal normalization into stable contract (`NormalizedSignal`)
+- [x] Signal scoring (relevance, impact, confidence, urgency)
+- [x] Executive filtering (`prioritizeExecutiveSignals`)
+- [x] Weekly brief generation with executive summary, what matters, what to ignore, recommendations
+- [x] Copy-ready report output
+- [x] Evidence traceability (badges, links, timestamps, observed text)
+- [x] Dashboard with collection control, signal cards, metrics
+- [x] Data Collection Status panel with source/signal counts, live/MVP status
+- [x] Collection mode clearly shown (live-public-fetch vs mvp-public-connectors)
+- [x] Assessment compliance page
+- [x] README with architecture, strategy, limitations, requirement mapping
+- [x] Public-data-only constraint satisfied throughout
+- [x] No overclaimed functionality
+- [x] Build passes (`npm run build`)
+- [x] Lint passes (`npm run lint`)

@@ -188,6 +188,9 @@ export default async function ExecutiveDashboardPage() {
                 <p className="text-xs font-meta uppercase tracking-[0.18em] text-muted-foreground">
                   Product launches
                 </p>
+                <div className="mb-2">
+                  <Badge tone="amber">Seeded Demonstration Data</Badge>
+                </div>
                 {productLaunches.map((launch) => (
                   <div
                     className="rounded-lg border border-white/10 bg-white/[0.03] p-4"
@@ -214,6 +217,9 @@ export default async function ExecutiveDashboardPage() {
                 <p className="text-xs font-meta uppercase tracking-[0.18em] text-muted-foreground">
                   Campaign themes
                 </p>
+                <div className="mb-2">
+                  <Badge tone="amber">Seeded Demonstration Data</Badge>
+                </div>
                 {campaignThemes.map((theme) => (
                   <div
                     className="rounded-lg border border-white/10 bg-white/[0.03] p-4"
@@ -238,7 +244,10 @@ export default async function ExecutiveDashboardPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Competitive Risks</CardTitle>
+              <div className="flex items-center gap-2">
+                <CardTitle>Competitive Risks</CardTitle>
+                <Badge tone="amber">Seeded Demonstration Data</Badge>
+              </div>
               <p className="text-sm leading-6 text-muted-foreground">
                 Pricing pressure and promotional mechanics that may erode KITSCH conversion.
               </p>
@@ -274,7 +283,10 @@ export default async function ExecutiveDashboardPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Market Narrative</CardTitle>
+              <div className="flex items-center gap-2">
+                <CardTitle>Market Narrative</CardTitle>
+                <Badge tone="amber">Seeded Demonstration Data</Badge>
+              </div>
               <p className="text-sm leading-6 text-muted-foreground">
                 The short version of what is changing across the market and why it matters.
               </p>

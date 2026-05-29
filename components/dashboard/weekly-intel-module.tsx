@@ -168,7 +168,13 @@ export function WeeklyIntelModule({
                     <Badge tone={signal.includeInExecutiveSummary ? "green" : "neutral"}>
                       {signal.includeInExecutiveSummary ? "executive signal" : "monitor only"}
                     </Badge>
-                    <Badge tone="amber">Seeded Demonstration Data</Badge>
+                    <Badge tone="amber">
+                      {signal.source.type === "social"
+                        ? "MVP Social Source Metadata"
+                        : signal.source.type === "ad-library"
+                          ? "Public Ad Library Reference"
+                          : "Seeded Demonstration Signal"}
+                    </Badge>
                     <Badge tone={getPriorityTone(priority)}>
                       Priority: {priority}
                     </Badge>
@@ -249,10 +255,22 @@ export function WeeklyIntelModule({
               >
                 <div className="flex flex-wrap gap-2">
                   <SourceTypeBadge sourceType={signal.sourceType} />
-                  <Badge tone={signal.evidence.includes("simulated") ? "amber" : "green"}>
-                    {signal.evidence.includes("simulated")
-                      ? "MVP Demonstration"
-                      : "Collected Public Data"}
+                  <Badge tone={
+                    signal.sourceType === "Social"
+                      ? "cyan"
+                      : signal.sourceType === "Ad Library"
+                        ? "amber"
+                        : signal.evidence.includes("simulated")
+                          ? "amber"
+                          : "green"
+                  }>
+                    {signal.sourceType === "Social"
+                      ? "MVP Social Source Metadata"
+                      : signal.sourceType === "Ad Library"
+                        ? "Public Ad Library Reference"
+                        : signal.evidence.includes("simulated")
+                          ? "Fallback Extraction Result"
+                          : "Live Website Signal"}
                   </Badge>
                   <Badge>{signal.signalType.replace(/_/g, " ")}</Badge>
                   <Badge>{signal.competitor}</Badge>

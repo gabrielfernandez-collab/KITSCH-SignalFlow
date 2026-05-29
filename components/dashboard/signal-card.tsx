@@ -18,23 +18,30 @@ export function SignalCard({ signal }: SignalCardProps) {
   const priority = getPriorityFromSeverity(signal.severity);
   const impactScore = getImpactScore(signal);
 
+  const sourceTone =
+    signal.source.type === "website" || signal.source.type === "shopify"
+      ? "green"
+      : signal.source.type === "social"
+        ? "cyan"
+        : "amber";
+
+  const dataLabel =
+    signal.source.type === "social"
+      ? "MVP Social Source Metadata"
+      : signal.source.type === "ad-library"
+        ? "Public Ad Library Reference"
+        : "Seeded Demonstration Signal";
+
   return (
     <Card>
       <CardHeader>
         <div className="flex flex-wrap items-center gap-2">
+          <Badge tone="amber">{dataLabel}</Badge>
           <Badge tone={getPriorityTone(priority)}>Priority: {priority}</Badge>
           <Badge>Impact Score: {impactScore}</Badge>
           <Badge>{signal.signalType}</Badge>
           <Badge>{signal.competitor}</Badge>
-          <Badge
-            tone={
-              signal.source.type === "website" || signal.source.type === "shopify"
-                ? "green"
-                : signal.source.type === "social"
-                  ? "cyan"
-                  : "amber"
-            }
-          >
+          <Badge tone={sourceTone}>
             {signal.source.type === "ad-library" ? "Ad Library" : signal.source.type}
           </Badge>
           <Badge>{signal.score.confidence} confidence</Badge>
