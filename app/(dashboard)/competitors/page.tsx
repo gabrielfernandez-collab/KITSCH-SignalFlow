@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCompetitorSummary } from "@/lib/intelligence";
+import { sourceRegistry } from "@/lib/source-registry";
 
 export default function CompetitorsPage() {
   const competitors = getCompetitorSummary();
@@ -46,6 +47,26 @@ export default function CompetitorsPage() {
                 {competitor.monitoredSources.map((source) => (
                   <Badge key={source}>{source}</Badge>
                 ))}
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs font-medium uppercase text-muted-foreground">
+                  Public source registry
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {sourceRegistry
+                    .find((entry) => entry.competitorName === competitor.name)
+                    ?.sources.map((source) => (
+                      <a
+                        className="rounded-md border border-white/10 bg-white/[0.03] px-2 py-1 text-xs text-muted-foreground hover:text-foreground"
+                        href={source.url}
+                        key={source.id}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        {source.label}
+                      </a>
+                    ))}
+                </div>
               </div>
               <p className="text-xs text-muted-foreground">
                 {competitor.activeSignals} active strategic signals. Last activity:{" "}

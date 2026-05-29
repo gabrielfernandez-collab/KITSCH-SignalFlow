@@ -6,7 +6,7 @@ export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
-        "rounded-lg border border-white/10 bg-card text-card-foreground shadow-soft-border",
+        "w-full max-w-[calc(100vw-2rem)] min-w-0 overflow-hidden rounded-lg border border-white/10 bg-card text-card-foreground shadow-soft-border sm:max-w-full",
         className
       )}
       {...props}
@@ -46,5 +46,13 @@ export function CardContent({
   className,
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("p-5 pt-0", className)} {...props} />;
+  return (
+    <div
+      className={cn(
+        "max-w-[19rem] p-5 pt-0 sm:max-w-none",
+        className
+      )}
+      {...props}
+    />
+  );
 }

@@ -8,12 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { getExecutiveMetrics, getPrioritizedSignals } from "@/lib/intelligence";
+import { getExecutiveMetrics, getTopSignals } from "@/lib/intelligence";
 import { recommendations, weeklyBrief } from "@/lib/sample-data";
 
 export default function ExecutiveDashboardPage() {
   const metrics = getExecutiveMetrics();
-  const signals = getPrioritizedSignals();
+  const signals = getTopSignals();
 
   return (
     <>

@@ -21,13 +21,34 @@ export function SignalCard({ signal }: SignalCardProps) {
       <CardHeader>
         <div className="flex flex-wrap items-center gap-2">
           <Badge tone={severityTone[signal.severity]}>{signal.severity}</Badge>
-          <Badge>{signal.category}</Badge>
+          <Badge>{signal.signalType}</Badge>
           <Badge>{signal.competitor}</Badge>
+          <Badge>{signal.score.confidence} confidence</Badge>
         </div>
         <CardTitle className="pt-2">{signal.title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-sm leading-6 text-muted-foreground">{signal.summary}</p>
+        <div className="grid gap-2 sm:grid-cols-3">
+          <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
+            <p className="text-xs uppercase text-muted-foreground">Relevance</p>
+            <p className="mt-1 text-lg font-semibold text-foreground">
+              {signal.score.relevanceToKitsch}/5
+            </p>
+          </div>
+          <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
+            <p className="text-xs uppercase text-muted-foreground">Impact</p>
+            <p className="mt-1 text-lg font-semibold text-foreground">
+              {signal.score.businessImpact}/5
+            </p>
+          </div>
+          <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
+            <p className="text-xs uppercase text-muted-foreground">Urgency</p>
+            <p className="mt-1 text-lg font-semibold text-foreground">
+              {signal.score.urgency}
+            </p>
+          </div>
+        </div>
         <div className="grid gap-3 md:grid-cols-2">
           <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
             <p className="flex items-center gap-2 text-xs font-medium uppercase text-muted-foreground">
@@ -48,10 +69,21 @@ export function SignalCard({ signal }: SignalCardProps) {
             </p>
           </div>
         </div>
-        <p className="flex items-center gap-2 text-xs text-muted-foreground">
+        <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
+          <p className="text-xs font-medium uppercase text-muted-foreground">Evidence</p>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            {signal.evidence}
+          </p>
+        </div>
+        <a
+          className="flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          href={signal.source.url}
+          rel="noreferrer"
+          target="_blank"
+        >
           <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
           Source: {signal.source.label}
-        </p>
+        </a>
       </CardContent>
     </Card>
   );

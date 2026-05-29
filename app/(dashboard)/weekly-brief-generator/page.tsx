@@ -5,10 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { generateWeeklyBrief } from "@/lib/intelligence";
+import { WeeklyIntelModule } from "@/components/dashboard/weekly-intel-module";
+import { generateWeeklyBrief, getPrioritizedSignals } from "@/lib/intelligence";
+import { sourceRegistry } from "@/lib/source-registry";
 
 export default function WeeklyBriefGeneratorPage() {
   const brief = generateWeeklyBrief();
+  const signals = getPrioritizedSignals();
 
   return (
     <>
@@ -30,7 +33,7 @@ export default function WeeklyBriefGeneratorPage() {
         title="Executive intelligence report"
       />
 
-      <section className="grid gap-5 xl:grid-cols-[1.4fr_1fr]">
+      <section className="grid min-w-0 max-w-full gap-5 xl:grid-cols-[1.4fr_1fr]">
         <Card>
           <CardHeader>
             <div className="flex flex-wrap items-center gap-2">
@@ -57,6 +60,38 @@ export default function WeeklyBriefGeneratorPage() {
                     key={trend}
                   >
                     {trend}
+                  </p>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <h3 className="text-sm font-semibold uppercase text-muted-foreground">
+                What matters
+              </h3>
+              <div className="mt-3 grid gap-3">
+                {brief.whatMatters.map((item) => (
+                  <p
+                    className="rounded-md border border-white/10 bg-white/[0.03] p-3 text-sm leading-6 text-foreground"
+                    key={item}
+                  >
+                    {item}
+                  </p>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <h3 className="text-sm font-semibold uppercase text-muted-foreground">
+                What to ignore
+              </h3>
+              <div className="mt-3 grid gap-3">
+                {brief.whatToIgnore.map((item) => (
+                  <p
+                    className="rounded-md border border-white/10 bg-white/[0.03] p-3 text-sm leading-6 text-muted-foreground"
+                    key={item}
+                  >
+                    {item}
                   </p>
                 ))}
               </div>
@@ -92,7 +127,7 @@ export default function WeeklyBriefGeneratorPage() {
           </CardContent>
         </Card>
 
-        <div className="space-y-5">
+        <div className="min-w-0 space-y-5">
           <Card>
             <CardHeader>
               <CardTitle>Brief composition</CardTitle>
@@ -102,6 +137,7 @@ export default function WeeklyBriefGeneratorPage() {
               <p>{brief.pricingSignals.length} pricing intelligence items</p>
               <p>{brief.campaignThemes.length} campaign themes</p>
               <p>{brief.recommendations.length} recommendations</p>
+              <p>{brief.sourceLog.length} source log entries</p>
             </CardContent>
           </Card>
 
@@ -117,6 +153,12 @@ export default function WeeklyBriefGeneratorPage() {
           </Card>
         </div>
       </section>
+
+      <WeeklyIntelModule
+        brief={brief}
+        signals={signals}
+        sourceRegistry={sourceRegistry}
+      />
     </>
   );
 }

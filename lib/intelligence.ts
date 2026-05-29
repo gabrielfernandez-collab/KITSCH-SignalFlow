@@ -5,9 +5,15 @@ import {
   pricingSignals,
   productLaunches,
   recommendations,
+  sourceSnapshots,
   weeklyBrief
 } from "@/lib/sample-data";
-import type { SignalSeverity, WeeklyBrief } from "@/lib/types";
+import type {
+  IntelligenceSignal,
+  SignalSeverity,
+  SourceLogEntry,
+  WeeklyBrief
+} from "@/lib/types";
 
 const severityRank: Record<SignalSeverity, number> = {
   critical: 4,
@@ -26,9 +32,9 @@ interface ExecutiveMetric {
 }
 
 export function getExecutiveMetrics(): ExecutiveMetric[] {
-  const criticalSignals = intelligenceSignals.filter(
-    (signal) => signal.severity === "critical"
-  ).length;
+  const topSignals = getTopSignals();
+  const criticalSignals = topSignals.filter((signal) => signal.severity === "critical")
+    .length;
   const launchCount = productLaunches.length;
   const pricingMoves = pricingSignals.filter(
     (signal) => signal.discountPercent > 0
@@ -38,7 +44,7 @@ export function getExecutiveMetrics(): ExecutiveMetric[] {
   return [
     {
       label: "High-signal changes",
-      value: intelligenceSignals.length,
+      value: topSignals.length,
       context: `${criticalSignals} critical signal this week`,
       accent: "green"
     },
@@ -63,10 +69,40 @@ export function getExecutiveMetrics(): ExecutiveMetric[] {
   ];
 }
 
-export function getPrioritizedSignals() {
+export function getTopSignals() {
+  return getPrioritizedSignals().filter((signal) => signal.includeInExecutiveSummary);
+}
+
+export function getIgnoredSignals() {
+  return getPrioritizedSignals().filter((signal) => !signal.includeInExecutiveSummary);
+}
+
+export function getPrioritizedSignals(): IntelligenceSignal[] {
   return [...intelligenceSignals].sort(
-    (a, b) => severityRank[b.severity] - severityRank[a.severity]
+    (a, b) =>
+      severityRank[b.severity] - severityRank[a.severity] ||
+      b.score.relevanceToKitsch +
+        b.score.businessImpact -
+        (a.score.relevanceToKitsch + a.score.businessImpact)
   );
+}
+
+export function getSignalsByFilter(filters: {
+  competitor?: string;
+  signalType?: string;
+}) {
+  return getPrioritizedSignals().filter((signal) => {
+    const competitorMatch =
+      !filters.competitor || filters.competitor === "All"
+        ? true
+        : signal.competitor === filters.competitor;
+    const signalTypeMatch =
+      !filters.signalType || filters.signalType === "All"
+        ? true
+        : signal.signalType === filters.signalType;
+
+    return competitorMatch && signalTypeMatch;
+  });
 }
 
 export function getCompetitorSummary() {
@@ -78,11 +114,88 @@ export function getCompetitorSummary() {
   }));
 }
 
+export function getSourceLog(): SourceLogEntry[] {
+  return sourceSnapshots.map((snapshot) => ({
+    competitor: snapshot.competitor,
+    source: snapshot.title,
+    sourceUrl: snapshot.sourceUrl,
+    collectedAt: snapshot.collectedAt,
+    status: snapshot.status,
+    signalsFound: intelligenceSignals.filter(
+      (signal) =>
+        signal.competitor === snapshot.competitor &&
+        signal.source.url === snapshot.sourceUrl
+    ).length
+  }));
+}
+
+export function formatBriefForCopy(brief: Omit<WeeklyBrief, "copyReadyReport">) {
+  const lines = [
+    `KITSCH SignalFlow Weekly Competitive Intelligence Brief`,
+    `Week of ${brief.weekOf}`,
+    "",
+    "Executive Summary",
+    brief.executiveSummary,
+    "",
+    "Top Signals This Week",
+    ...brief.topSignals.map(
+      (signal, index) =>
+        `${index + 1}. ${signal.title} - ${signal.summary} Action: ${
+          signal.recommendedAction
+        }`
+    ),
+    "",
+    "Competitor Launches",
+    ...brief.productLaunches.map(
+      (launch) =>
+        `- ${launch.competitor}: ${launch.productName} (${launch.category}) - ${launch.launchReadout}`
+    ),
+    "",
+    "Pricing Moves",
+    ...brief.pricingSignals.map(
+      (signal) =>
+        `- ${signal.competitor}: ${signal.productLine} moved from $${signal.previousPrice} to $${signal.currentPrice}. ${signal.implication}`
+    ),
+    "",
+    "Campaign Angles",
+    ...brief.campaignThemes.map(
+      (theme) => `- ${theme.competitor}: ${theme.theme}. ${theme.strategicRead}`
+    ),
+    "",
+    "What Matters",
+    ...brief.whatMatters.map((item) => `- ${item}`),
+    "",
+    "What to Ignore",
+    ...brief.whatToIgnore.map((item) => `- ${item}`),
+    "",
+    "Recommended Actions",
+    ...brief.recommendations.map(
+      (recommendation) =>
+        `- [${recommendation.priority}] ${recommendation.title}: ${recommendation.action}`
+    ),
+    "",
+    "Source Log",
+    ...brief.sourceLog.map(
+      (source) =>
+        `- ${source.competitor}: ${source.source} (${source.status}) - ${source.sourceUrl}`
+    )
+  ];
+
+  return lines.join("\n");
+}
+
 export function generateWeeklyBrief(): WeeklyBrief {
-  return {
+  const brief = {
     ...weeklyBrief,
+    topSignals: getTopSignals(),
+    sourceLog: getSourceLog(),
     recommendations: [...recommendations].sort(
       (a, b) => severityRank[b.priority] - severityRank[a.priority]
     )
+  };
+
+  return {
+    ...brief,
+    copyReadyReport: formatBriefForCopy(brief)
   };
 }
