@@ -4,7 +4,7 @@ import "@/app/globals.css";
 
 export const metadata: Metadata = {
   title: "KITSCH SignalFlow",
-  description: "AI-Powered Competitive Intelligence Engine for KITSCH leadership"
+  description: "Premium Executive Intelligence Platform for KITSCH leadership"
 };
 
 export default function RootLayout({

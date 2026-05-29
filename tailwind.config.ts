@@ -41,7 +41,9 @@ const config: Config = {
         "panel": "0 18px 60px rgba(0,0,0,0.28)"
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["var(--font-body)", "system-ui", "sans-serif"],
+        heading: ["var(--font-heading)", "system-ui", "sans-serif"],
+        meta: ["var(--font-meta)", "system-ui", "sans-serif"],
         mono: ["SFMono-Regular", "Consolas", "monospace"]
       }
     }

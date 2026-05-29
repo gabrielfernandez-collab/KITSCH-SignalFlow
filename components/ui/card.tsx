@@ -27,7 +27,10 @@ export function CardTitle({
 }: HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={cn("text-base font-semibold tracking-normal text-foreground", className)}
+      className={cn(
+        "font-heading text-base font-semibold tracking-normal text-foreground",
+        className
+      )}
       {...props}
     />
   );

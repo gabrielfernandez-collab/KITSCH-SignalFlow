@@ -81,7 +81,7 @@ export function WeeklyIntelModule({
           <CardHeader>
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
-                <CardTitle>Weekly brief module</CardTitle>
+                <CardTitle>Weekly intelligence builder</CardTitle>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
                   Filter scored competitive signals by competitor and signal type.
                   The executive brief only promotes the highest-quality signals.
@@ -292,7 +292,7 @@ export function WeeklyIntelModule({
       <div className="min-w-0 space-y-5">
         <Card>
           <CardHeader>
-            <CardTitle>Copy-ready report</CardTitle>
+            <CardTitle>Copy-ready brief</CardTitle>
           </CardHeader>
           <CardContent>
             <pre className="max-h-[32rem] overflow-auto whitespace-pre-wrap rounded-md border border-white/10 bg-black/20 p-4 text-xs leading-5 text-muted-foreground">

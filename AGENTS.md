@@ -1,355 +1,103 @@
-Read AGENTS.md and review the current implementation of KITSCH SignalFlow.
+Read AGENTS.md.
 
-GOAL
+You are redesigning KITSCH SignalFlow.
 
-Transform SignalFlow from a competitive monitoring dashboard into an executive intelligence system.
+Do NOT redesign this as a SaaS dashboard.
 
-The application already surfaces competitive signals.
+Do NOT redesign this as an analytics platform.
 
-The next objective is to improve:
+Do NOT redesign this as an admin panel.
 
+Design this as a premium Executive Intelligence Platform that could be presented to the leadership teams of Amazon, SpaceX, Tesla, Palantir, Stripe, or KITSCH.
+
+OBJECTIVE
+
+SignalFlow should feel like a strategic decision-support system used by executives every Monday morning.
+
+The application should communicate:
+
+* Intelligence
+* Clarity
+* Authority
 * Credibility
-* Traceability
-* Executive usefulness
-* Decision support
+* Strategic thinking
 
-Do NOT add unnecessary complexity.
+Replace any generic dashboard aesthetics with a premium intelligence-platform aesthetic.
 
-Do NOT redesign the product.
+DESIGN SYSTEM
 
-Focus entirely on making every surfaced signal actionable.
+Theme:
+Ultra-premium dark mode
 
----
+Visual Characteristics:
 
-# TASK 1
+* High information density
+* Strong typography hierarchy
+* Subtle borders
+* Minimal shadows
+* Precise spacing
+* No oversized cards
+* No marketing-site design patterns
 
-Add Intelligence Framework
+Typography:
 
-Every surfaced signal must answer three questions:
+* Geist or Inter Tight for body text
+* IBM Plex Sans for executive headings
+* Space Grotesk for labels, badges, and intelligence metadata
 
-1. What Happened?
-2. Why It Matters?
-3. Recommended Action
+VISUAL STRUCTURE
 
-This framework should be consistently applied throughout:
+The homepage should prioritize:
 
-* Executive Dashboard
-* Competitor Profiles
-* Product Launch Radar
-* Pricing Intelligence
-* Campaign Intelligence
-* Weekly Brief
+1. Monday Leadership Brief
+2. Leadership Attention Required
+3. Recommended Actions
+4. Strategic Signals
+5. Emerging Opportunities
+6. Competitive Risks
+7. Market Narrative
+8. Evidence Feed
 
-Current state:
+SIGNALS
 
-Signals primarily show:
+Every signal must display:
 
-* Competitor
-* Description
-* Notable Change
+* What Happened
+* Why It Matters
+* Recommended Action
+* Confidence
+* Evidence
 
-Target state:
+Replace generic activity feeds with intelligence cards.
 
-Every signal card should include:
+NAVIGATION
 
-WHAT HAPPENED
+Organize navigation around:
 
-WHY IT MATTERS
+INTELLIGENCE
+ANALYSIS
+COMPETITORS
+OPERATIONS
 
-RECOMMENDED ACTION
+rather than generic dashboard terminology.
 
-Example:
+EXECUTIVE EXPERIENCE
 
-What Happened
+The application should feel like:
 
-Competitor expanded overnight curl system messaging into travel bundles.
+* Palantir Foundry
+* Bloomberg Terminal
+* Stripe Radar
+* Linear
 
-Why It Matters
+while remaining approachable and elegant.
 
-Signals category expansion into travel-oriented use cases and broader customer adoption scenarios.
+FINAL GOAL
 
-Recommended Action
+When a COO opens SignalFlow, the immediate reaction should be:
 
-Monitor whether bundle positioning creates overlap with KITSCH travel accessory offerings.
+"This helps me decide what matters."
 
----
+not
 
-# TASK 2
-
-Add Evidence Traceability
-
-Current signals reference sources.
-
-Strengthen credibility.
-
-Add:
-
-View Evidence
-
-interaction on every signal.
-
-Evidence panel should display:
-
-Source URL
-
-Collection Date
-
-Source Type
-
-Observed Text
-
-Evidence Summary
-
-Confidence Level
-
-Example:
-
-Evidence
-
-Source:
-https://competitor.com/product-page
-
-Observed:
-"Introducing our new travel bundle..."
-
-Collected:
-2026-05-27
-
-Confidence:
-High
-
-Reviewers should immediately understand where every conclusion originated.
-
----
-
-# TASK 3
-
-Improve Signal Scoring Transparency
-
-Current score values lack context.
-
-Replace simple score badges with:
-
-Priority
-
-High
-Medium
-Low
-
-and
-
-Impact Score
-
-0-100
-
-Add tooltip or explanatory text:
-
-Priority reflects strategic relevance to KITSCH.
-
-Impact Score estimates potential business significance.
-
-Example:
-
-Priority: High
-
-Impact Score: 88
-
----
-
-# TASK 4
-
-Add Executive Recommendation Layer
-
-Create a dedicated section on the Executive Dashboard:
-
-Recommended Leadership Actions
-
-Generate:
-
-Top 3 Actions This Week
-
-Each action must reference supporting signals.
-
-Example:
-
-Action #1
-
-Monitor premium travel-bundle positioning in heatless styling category.
-
-Supporting Signals:
-
-* Heatless Hair
-* Slip
-
-Confidence:
-
-High
-
-This should be one of the first sections leadership sees.
-
----
-
-# TASK 5
-
-Add Signal Confidence System
-
-Every surfaced signal should include:
-
-Confidence Level
-
-Options:
-
-High
-Medium
-Low
-
-Confidence should be based on:
-
-* Source quality
-* Evidence completeness
-* Data freshness
-
-Display confidence visibly.
-
-Do not hide uncertainty.
-
-If confidence is low:
-
-State it clearly.
-
----
-
-# TASK 6
-
-Add Why This Competitor Matters
-
-Enhance competitor cards.
-
-Current state:
-
-Name
-Category
-Sources
-
-Add:
-
-Strategic Relevance
-
-Example:
-
-Why This Competitor Matters
-
-Leader in heatless styling category and frequently influences premium accessory positioning.
-
-This helps demonstrate research depth.
-
----
-
-# TASK 7
-
-Improve Weekly Brief Structure
-
-Review generated weekly brief.
-
-Every insight should follow:
-
-Signal
-
-Why It Matters
-
-Recommended Action
-
-Confidence
-
-Evidence
-
-Avoid generic summaries.
-
-Write like an analyst preparing a report for the COO.
-
----
-
-# TASK 8
-
-Assessment Review Mode
-
-Create an optional toggle:
-
-Executive Intelligence View
-
-When enabled:
-
-Hide low-value information.
-
-Only show:
-
-* High-priority signals
-* Leadership recommendations
-* Strategic risks
-* Emerging opportunities
-
-The goal is to simulate what a COO would review Monday morning.
-
----
-
-# TASK 9
-
-Add Decision Support Messaging
-
-Across the application, shift language away from monitoring.
-
-Replace phrases like:
-
-Recent Activity
-
-Observed Events
-
-Signal Feed
-
-with language like:
-
-Strategic Signals
-
-Leadership Insights
-
-Recommended Actions
-
-Market Intelligence
-
-Competitive Risk
-
-Emerging Opportunity
-
-The product should feel like a decision-support tool.
-
----
-
-# TASK 10
-
-Final Executive Polish
-
-Review all screens.
-
-Ask:
-
-Would a COO immediately understand:
-
-* What changed?
-* Why it matters?
-* What should be done?
-
-If not, improve the presentation.
-
-SUCCESS CRITERIA
-
-A reviewer should be able to open SignalFlow and answer:
-
-1. What changed this week?
-2. Why should KITSCH care?
-3. What action should leadership consider?
-4. How confident are we?
-5. What evidence supports this conclusion?
-
-within two minutes.
-
-The final result should feel like an executive intelligence platform rather than a competitor monitoring dashboard.
+"This shows me data."

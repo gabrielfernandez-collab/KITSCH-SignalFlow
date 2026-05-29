@@ -3,31 +3,37 @@
 @tailwind utilities;
 
 :root {
-  --background: 31 23% 94%;
-  --foreground: 0 0% 8%;
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 8%;
-  --muted: 32 16% 89%;
-  --muted-foreground: 26 8% 38%;
-  --border: 30 12% 82%;
-  --input: 30 12% 82%;
-  --ring: 158 46% 54%;
-  --primary: 0 0% 8%;
-  --primary-foreground: 31 23% 94%;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-heading: "IBM Plex Sans", "Inter", system-ui, sans-serif;
+  --font-meta: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --background: 224 26% 4%;
+  --foreground: 210 20% 96%;
+  --card: 224 22% 7%;
+  --card-foreground: 210 20% 96%;
+  --muted: 224 16% 11%;
+  --muted-foreground: 215 10% 65%;
+  --border: 224 12% 18%;
+  --input: 224 12% 18%;
+  --ring: 156 56% 58%;
+  --primary: 210 20% 96%;
+  --primary-foreground: 224 26% 4%;
 }
 
 .dark {
-  --background: 0 0% 6%;
-  --foreground: 31 23% 94%;
-  --card: 0 0% 10%;
-  --card-foreground: 31 23% 94%;
-  --muted: 0 0% 15%;
-  --muted-foreground: 32 9% 66%;
-  --border: 0 0% 19%;
-  --input: 0 0% 19%;
-  --ring: 158 46% 54%;
-  --primary: 31 23% 94%;
-  --primary-foreground: 0 0% 8%;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-heading: "IBM Plex Sans", "Inter", system-ui, sans-serif;
+  --font-meta: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --background: 224 26% 4%;
+  --foreground: 210 20% 96%;
+  --card: 224 22% 7%;
+  --card-foreground: 210 20% 96%;
+  --muted: 224 16% 11%;
+  --muted-foreground: 215 10% 65%;
+  --border: 224 12% 18%;
+  --input: 224 12% 18%;
+  --ring: 156 56% 58%;
+  --primary: 210 20% 96%;
+  --primary-foreground: 224 26% 4%;
 }
 
 * {
@@ -36,18 +42,23 @@
 
 html {
   min-height: 100%;
-  background: hsl(var(--background));
+  background:
+    radial-gradient(circle at top left, rgba(71, 85, 105, 0.25), transparent 38%),
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.08), transparent 28%),
+    hsl(var(--background));
 }
 
 body {
   min-height: 100vh;
   margin: 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 340px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 220px),
+    linear-gradient(135deg, rgba(96, 165, 250, 0.03), transparent 24%, rgba(125, 211, 168, 0.03) 100%),
     hsl(var(--background));
   color: hsl(var(--foreground));
   font-feature-settings: "rlig" 1, "calt" 1;
   overflow-x: hidden;
+  font-family: var(--font-body), system-ui, sans-serif;
 }
 
 ::selection {
