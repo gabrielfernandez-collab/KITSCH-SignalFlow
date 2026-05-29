@@ -45,69 +45,108 @@ export function CollectionControl({ initialCollection }: CollectionControlProps)
     }
   }
 
+  function formatTimestamp(iso: string) {
+    const date = new Date(iso);
+    return {
+      date: date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      }),
+      time: date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true
+      })
+    };
+  }
+
+  const ts = formatTimestamp(collection.collectedAt);
+
   return (
-    <Card>
+    <Card className="max-w-none">
       <CardHeader>
-        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div>
-            <CardTitle>Data Collection Status</CardTitle>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Public website collection can run live when enabled. Social and ad
-              library sources use public metadata connectors in this MVP.
-            </p>
-          </div>
-          <Button disabled={isRunning} onClick={runCollection}>
+        <div className="flex items-center justify-between gap-4">
+          <CardTitle>Data Collection Status</CardTitle>
+          <Button disabled={isRunning} onClick={runCollection} className="shrink-0">
             <RefreshCw
               className={cn("h-4 w-4", isRunning && "animate-spin")}
               aria-hidden
             />
-            {isRunning ? "Running collection" : "Run Public Collection"}
+            {isRunning ? "Running" : "Run Public Collection"}
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="space-y-5">
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-          <StatusTile
-            label="Collection Mode"
-            status={
-              collection.mode === "live-public-fetch"
+      <CardContent className="max-w-none space-y-6">
+        {/* Collection Summary */}
+        <div>
+          <p className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Collection Summary
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            <StatusTile
+              label="Collection Mode"
+              tone={collection.mode === "live-public-fetch" ? "green" : "amber"}
+            >
+              {collection.mode === "live-public-fetch"
                 ? "Live Public Fetch"
-                : "MVP Public Connectors"
-            }
-            tone={collection.mode === "live-public-fetch" ? "green" : "amber"}
-          />
-          <StatusTile
-            label="Live Website Collection"
-            status={
-              collection.summary.liveWebsiteCollectionEnabled ? "Enabled" : "Disabled"
-            }
-            tone={collection.summary.liveWebsiteCollectionEnabled ? "green" : "amber"}
-          />
-          <StatusTile
-            label="Social Source Collection"
-            status="MVP metadata connector"
-            tone="cyan"
-          />
-          <StatusTile
-            label="Ad Library Collection"
-            status="MVP reference connector"
-            tone="amber"
-          />
-          <StatusTile
-            label="Last Collection"
-            status={new Date(collection.collectedAt).toLocaleString()}
-            tone="neutral"
-          />
+                : "MVP Public Connectors"}
+            </StatusTile>
+            <StatusTile
+              label="Live Website Collection"
+              tone={
+                collection.summary.liveWebsiteCollectionEnabled ? "green" : "amber"
+              }
+            >
+              {collection.summary.liveWebsiteCollectionEnabled
+                ? "Live Enabled"
+                : "Disabled"}
+            </StatusTile>
+            <StatusTile label="Social Sources" tone="cyan">
+              Metadata Connector
+            </StatusTile>
+            <StatusTile label="Ad Library Sources" tone="amber">
+              Reference Connector
+            </StatusTile>
+            <StatusTile label="Last Collection" tone="neutral" noBadge>
+              <span className="block text-sm font-medium text-foreground">
+                {ts.date}
+              </span>
+              <span className="block text-xs text-muted-foreground">
+                {ts.time}
+              </span>
+            </StatusTile>
+          </div>
         </div>
 
-        <div className="grid gap-3 md:grid-cols-4">
-          <Metric label="Sources processed" value={collection.summary.sourcesProcessed} />
-          <Metric label="Signals generated" value={collection.summary.signalsGenerated} />
-          <Metric label="Failed sources" value={collection.summary.failedSources} />
-          <Metric label="MVP sources" value={collection.summary.mvpSources} />
+        {/* KPI Cards */}
+        <div>
+          <p className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Metrics
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <KpiCard
+              label="Sources Processed"
+              value={collection.summary.sourcesProcessed}
+            />
+            <KpiCard
+              label="Signals Generated"
+              value={collection.summary.signalsGenerated}
+            />
+            <KpiCard
+              label="Failed Sources"
+              value={collection.summary.failedSources}
+              highlight={collection.summary.failedSources > 0}
+            />
+            <KpiCard
+              label="MVP Sources"
+              value={collection.summary.mvpSources}
+            />
+          </div>
         </div>
 
-        <div className="rounded-md border border-white/10 bg-white/[0.03] p-4">
+        {/* Collection Status */}
+        <div className="rounded-lg border border-white/10 bg-white/[0.03] p-4">
           <p className="flex items-center gap-2 text-sm font-medium text-foreground">
             {error ? (
               <AlertCircle className="h-4 w-4 text-signal-rose" aria-hidden />
@@ -116,27 +155,30 @@ export function CollectionControl({ initialCollection }: CollectionControlProps)
             )}
             {error ? "Collection Error" : "Collection Complete"}
           </p>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
             {error ||
-              `Sources Processed: ${collection.summary.sourcesProcessed}. Signals Generated: ${collection.summary.signalsGenerated}. Failed Sources: ${collection.summary.failedSources}.`}
+              `${collection.summary.sourcesProcessed} sources processed · ${collection.summary.signalsGenerated} signals generated · ${collection.summary.failedSources} failed`}
           </p>
         </div>
 
+        {/* Collection Log */}
         <div className="space-y-2">
-          <p className="text-xs font-medium uppercase text-muted-foreground">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Collection log
           </p>
           <div className="grid gap-2">
             {collection.collectionLog.slice(0, 8).map((entry) => (
               <div
-                className="flex flex-col gap-2 rounded-md border border-white/10 bg-black/10 p-3 text-sm md:flex-row md:items-center md:justify-between"
+                className="flex items-center justify-between gap-4 rounded-lg border border-white/10 bg-black/10 p-3"
                 key={`${entry.competitor}-${entry.sourceType}-${entry.sourceUrl}`}
               >
-                <div>
-                  <p className="font-medium text-foreground">
-                    {entry.competitor} - {entry.sourceType}
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-foreground">
+                    {entry.competitor}
+                    <span className="text-muted-foreground"> &middot; </span>
+                    {entry.sourceType}
                   </p>
-                  <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                  <p className="mt-0.5 truncate text-xs text-muted-foreground">
                     {entry.note}
                   </p>
                 </div>
@@ -148,19 +190,28 @@ export function CollectionControl({ initialCollection }: CollectionControlProps)
                         ? "rose"
                         : "neutral"
                   }
+                  className="shrink-0 whitespace-nowrap"
                 >
-                  {entry.status}
+                  {entry.status === "Live"
+                    ? "Live"
+                    : entry.status === "Failed"
+                      ? "Failed"
+                      : "MVP"}
                 </Badge>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex items-start gap-3 rounded-md border border-white/10 bg-black/10 p-4 text-sm leading-6 text-muted-foreground">
+        {/* Info Box */}
+        <div className="flex items-start gap-3 rounded-lg border border-white/10 bg-black/10 p-4 text-sm leading-6 text-muted-foreground">
           <DatabaseZap className="mt-0.5 h-4 w-4 shrink-0 text-signal-cyan" aria-hidden />
           <p>
-            Live website fetching is controlled by `SIGNALFLOW_LIVE_FETCH=true`.
-            The dashboard remains usable if third-party pages block, timeout, or
+            Live website fetching is controlled by{" "}
+            <code className="rounded bg-white/5 px-1.5 py-0.5 text-xs font-mono">
+              SIGNALFLOW_LIVE_FETCH=true
+            </code>
+            . The dashboard remains usable if third-party pages block, timeout, or
             require client-side rendering.
           </p>
         </div>
@@ -171,28 +222,53 @@ export function CollectionControl({ initialCollection }: CollectionControlProps)
 
 function StatusTile({
   label,
-  status,
-  tone
+  tone,
+  noBadge,
+  children
 }: {
   label: string;
-  status: string;
   tone: "green" | "amber" | "cyan" | "neutral";
+  noBadge?: boolean;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-md border border-white/10 bg-black/10 p-3">
-      <p className="text-xs uppercase text-muted-foreground">{label}</p>
-      <div className="mt-2">
-        <Badge tone={tone}>{status}</Badge>
-      </div>
+    <div className="flex min-h-[5rem] flex-col justify-center gap-2 rounded-lg border border-white/10 bg-black/10 p-4">
+      <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        {label}
+      </p>
+      {noBadge ? (
+        <div>{children}</div>
+      ) : (
+        <Badge tone={tone} className="w-fit whitespace-nowrap">
+          {children}
+        </Badge>
+      )}
     </div>
   );
 }
 
-function Metric({ label, value }: { label: string; value: number }) {
+function KpiCard({
+  label,
+  value,
+  highlight
+}: {
+  label: string;
+  value: number;
+  highlight?: boolean;
+}) {
   return (
-    <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
-      <p className="text-xs uppercase text-muted-foreground">{label}</p>
-      <p className="mt-1 text-2xl font-semibold text-foreground">{value}</p>
+    <div className="flex flex-col gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] p-4">
+      <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        {label}
+      </p>
+      <p
+        className={cn(
+          "text-3xl font-semibold tabular-nums tracking-tight",
+          highlight ? "text-signal-rose" : "text-foreground"
+        )}
+      >
+        {value}
+      </p>
     </div>
   );
 }

@@ -1,110 +1,194 @@
-# KITSCH SignalFlow — Project Constitution
+Read AGENTS.md.
 
-## Original KITSCH Assessment Objective
+Review the Data Collection Status section.
 
-Build a working competitive intelligence module that monitors competitor websites, social media channels, and public advertising libraries to generate actionable weekly market intelligence for KITSCH leadership.
+The current layout has severe usability issues:
 
-## Requirements (from Assessment Email)
+* Cards are too narrow
+* Labels wrap excessively
+* Badges overflow card boundaries
+* Timestamps overflow
+* Information density is poor
+* Visual hierarchy is unclear
 
-- Pull only publicly available data
-- Monitor competitor websites
-- Monitor public social sources
-- Monitor public ad library sources
-- Configurable competitor/source registry
-- Normalized signal model
-- Scored signal model (relevance, impact, confidence, urgency)
-- Executive filtering (high-relevance / high-impact signals surfaced, low-value suppressed)
-- Weekly brief generation with executive summary, what happened, why it matters, recommended action
-- Evidence traceability (source links, timestamps, evidence text)
-- Configurable collection workflow
-- Live collection toggle (enabled by env var or query param)
-- Assessment compliance page
-- README documentation with requirement mapping
+GOAL
 
-## Evaluation Criteria
+Redesign the Data Collection Status section to look like a premium executive intelligence platform.
 
-- Public-data-only constraint strictly followed
-- Signal normalization and scoring correctness
-- Executive filtering usefulness (noise suppression)
-- Evidence traceability completeness
-- Weekly brief quality and actionability
-- Code quality and architecture clarity
-- README completeness and honesty
-- Assessment compliance page accuracy
-- No overclaimed functionality
+Do not change the information being displayed.
 
-## Deliverables
+Only improve layout, responsiveness, readability, and visual hierarchy.
 
-1. Next.js app with executive dashboard, weekly brief, and collection workflow
-2. Public-source collection layer (website, social, ad-library connectors)
-3. Normalization and scoring pipeline
-4. Configurable competitor registry (`data/competitors.json`)
-5. Sample competitor intelligence dataset with scored signals
-6. README with architecture, strategy, requirement mapping, limitations
-7. Assessment compliance page at `/assessment`
-8. AGENTS.md (this file) as project source of truth
+---
 
-## Product Purpose
+ISSUES TO FIX
 
-KITSCH SignalFlow provides KITSCH leadership with a Monday-morning operating view of competitor moves — product launches, pricing changes, campaign angles, and market trends — distilled from public sources into an executive-ready weekly brief.
+Current problems:
 
-## Data Source Rules
+* Text wraps into multiple lines unnecessarily
+* Cards are not sized appropriately
+* Status badges overflow
+* Timestamp is unreadable
+* Metrics grid is too dense
+* Important information is difficult to scan
 
-- All sources must be publicly accessible URLs
-- No credentials, API keys, tokens, or private endpoints
-- No scraping of login-gated or ToS-restricted content
-- Website collection uses public HTTP GET for HTML extraction
-- Social sources use public profile URLs and metadata only (no post scraping)
-- Ad library sources use public entry points and inferred campaign themes
+---
 
-## Public-Data-Only Constraint
+NEW LAYOUT REQUIREMENTS
 
-This is the hard constraint of the assessment. The app must function entirely on:
-- Public HTML pages
-- Public social profile URLs (Instagram, TikTok)
-- Public Meta Ad Library URLs
-- Metadata derived from those public entry points
+Top Row:
 
-No private APIs, no authenticated scraping, no credential-based collection.
+Display:
 
-## MVP Limitations
+Data Collection Status
 
-- Seeded snapshots are used by default for reliable demo in local/review environments
-- Live website collection must be explicitly enabled (`SIGNALFLOW_LIVE_FETCH=true`)
-- Social collection is a metadata connector (profile URLs + category context), not post-level extraction
-- Ad library collection is a reference connector (entry point URL + inferred theme), not creative extraction
-- AI summarization is deterministic TypeScript (not LLM-based) for the MVP
-- Report export is copy-to-clipboard text, not PDF or Google Docs
-- No persistence layer — everything runs in-memory
-- No authentication — dashboard route group is unprotected
+Run Public Collection button
 
-## Executive Intelligence Design Principles
+on a single horizontal row.
 
-1. **Executive-first**: The weekly brief and signal cards prioritize what leadership needs to know, not raw data volume.
-2. **Noise suppression**: Low-relevance and low-impact signals are suppressed from the executive view.
-3. **Actionable output**: Every signal includes what happened, why it matters, and a recommended action.
-4. **Evidence transparency**: All signals link back to source URLs with collection timestamps and observed text.
-5. **Scored judgment**: Signals carry relevance, impact, confidence, and urgency scores to support triage.
-6. **Honest sourcing**: The UI clearly labels whether data is live-collected, connector-based, or seeded demonstration data.
+The button should align right.
 
-## Definition of Done
+---
 
-- [x] Public-source registry (`data/competitors.json`) with 6 competitors and 3 source types each
-- [x] Website collector with live fetch toggle and safe simulated fallback
-- [x] Social collector (MVP metadata connector — Instagram/TikTok profile URLs)
-- [x] Ad library collector (MVP reference connector — Meta Ad Library entry points)
-- [x] Signal normalization into stable contract (`NormalizedSignal`)
-- [x] Signal scoring (relevance, impact, confidence, urgency)
-- [x] Executive filtering (`prioritizeExecutiveSignals`)
-- [x] Weekly brief generation with executive summary, what matters, what to ignore, recommendations
-- [x] Copy-ready report output
-- [x] Evidence traceability (badges, links, timestamps, observed text)
-- [x] Dashboard with collection control, signal cards, metrics
-- [x] Data Collection Status panel with source/signal counts, live/MVP status
-- [x] Collection mode clearly shown (live-public-fetch vs mvp-public-connectors)
-- [x] Assessment compliance page
-- [x] README with architecture, strategy, limitations, requirement mapping
-- [x] Public-data-only constraint satisfied throughout
-- [x] No overclaimed functionality
-- [x] Build passes (`npm run build`)
-- [x] Lint passes (`npm run lint`)
+Second Row:
+
+Display:
+
+Collection Summary
+
+Example:
+
+Collection Mode
+Live Website Collection
+Social Sources
+Ad Library Sources
+Last Collection
+
+Use a responsive 5-column grid on desktop.
+
+Use 2-column grid on tablet.
+
+Use 1-column stack on mobile.
+
+---
+
+Third Row:
+
+Display KPI cards:
+
+Sources Processed
+Signals Generated
+Failed Sources
+MVP Sources
+
+These should look like executive KPI cards.
+
+Large values.
+
+Smaller labels.
+
+No text wrapping.
+
+---
+
+BADGES
+
+Status badges must:
+
+* Fit inside containers
+* Never overflow
+* Support long labels
+* Use consistent sizing
+
+Examples:
+
+MVP Public Connector
+
+Live Enabled
+
+Metadata Connector
+
+Reference Connector
+
+Use pill badges with proper padding.
+
+---
+
+TIMESTAMPS
+
+Convert timestamps to readable format.
+
+Example:
+
+May 29, 2026
+3:16 PM
+
+Avoid showing long raw timestamps inside small cards.
+
+---
+
+CARD DESIGN
+
+Use:
+
+* Consistent height
+* Better spacing
+* Improved padding
+* Stronger visual hierarchy
+
+The section should feel similar to:
+
+Stripe Dashboard
+Linear
+Vercel
+Palantir
+
+Avoid:
+
+* Tiny cards
+* Compressed layouts
+* Excessive wrapping
+
+---
+
+RESPONSIVENESS
+
+Desktop:
+
+Clean horizontal layout.
+
+Tablet:
+
+2-column layout.
+
+Mobile:
+
+Single-column stack.
+
+No clipping.
+
+No overflow.
+
+No overlapping elements.
+
+---
+
+EXECUTIVE EXPERIENCE
+
+A COO should be able to scan this section in less than 5 seconds and understand:
+
+* Is collection running?
+* What mode is active?
+* How many signals were generated?
+* Were there failures?
+* When was the last collection?
+
+The section should feel operationally important and visually polished.
+
+SUCCESS CRITERIA
+
+No text overlap.
+No badge overflow.
+No timestamp clipping.
+Readable at all breakpoints.
+Looks like a premium intelligence platform.
