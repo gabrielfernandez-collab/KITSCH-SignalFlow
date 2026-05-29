@@ -1,194 +1,378 @@
-Read AGENTS.md.
-
-Review the Data Collection Status section.
-
-The current layout has severe usability issues:
-
-* Cards are too narrow
-* Labels wrap excessively
-* Badges overflow card boundaries
-* Timestamps overflow
-* Information density is poor
-* Visual hierarchy is unclear
+Read AGENTS.md and review the current Executive Dashboard implementation.
 
 GOAL
 
-Redesign the Data Collection Status section to look like a premium executive intelligence platform.
+Replace the current long-scroll Executive Dashboard with a premium Executive Intelligence Workspace.
 
-Do not change the information being displayed.
+The current dashboard contains excellent content, but too much information is competing for attention on a single page.
 
-Only improve layout, responsiveness, readability, and visual hierarchy.
+Transform the experience into a workspace-driven intelligence platform where executives focus on one context at a time.
 
----
+This should feel closer to:
 
-ISSUES TO FIX
+* Palantir Foundry
+* Bloomberg Terminal
+* Stripe Radar
+* Linear
+* Anduril
 
-Current problems:
-
-* Text wraps into multiple lines unnecessarily
-* Cards are not sized appropriately
-* Status badges overflow
-* Timestamp is unreadable
-* Metrics grid is too dense
-* Important information is difficult to scan
+and less like a traditional SaaS dashboard.
 
 ---
 
-NEW LAYOUT REQUIREMENTS
+# PRIMARY OBJECTIVE
 
-Top Row:
+Create a Workspace Navigation System.
 
-Display:
+The Executive Dashboard should become an Executive Intelligence Workspace.
 
-Data Collection Status
-
-Run Public Collection button
-
-on a single horizontal row.
-
-The button should align right.
+Instead of showing every section simultaneously, users should switch between dedicated intelligence workspaces.
 
 ---
 
-Second Row:
+# WORKSPACE NAVIGATION
 
-Display:
+Create elevated workspace tabs similar to the attached concept.
 
-Collection Summary
+The tabs should NOT look like:
 
-Example:
+* Browser tabs
+* Bootstrap tabs
+* Generic pill buttons
 
-Collection Mode
-Live Website Collection
-Social Sources
-Ad Library Sources
-Last Collection
+The tabs SHOULD look like:
 
-Use a responsive 5-column grid on desktop.
+* Professional workspace selectors
+* Intelligence platform navigation
+* Enterprise command-center interfaces
 
-Use 2-column grid on tablet.
+Visual behavior:
 
-Use 1-column stack on mobile.
+Active workspace:
 
----
+* Elevated
+* Higher contrast
+* Connected to content panel
+* Feels selected
 
-Third Row:
+Inactive workspace:
 
-Display KPI cards:
-
-Sources Processed
-Signals Generated
-Failed Sources
-MVP Sources
-
-These should look like executive KPI cards.
-
-Large values.
-
-Smaller labels.
-
-No text wrapping.
+* Lower emphasis
+* Clickable
+* Clearly secondary
 
 ---
 
-BADGES
+# REQUIRED WORKSPACES
 
-Status badges must:
+## Workspace 1
 
-* Fit inside containers
-* Never overflow
-* Support long labels
-* Use consistent sizing
+BRIEF
 
-Examples:
+Purpose:
 
-MVP Public Connector
+Executive overview.
 
-Live Enabled
+Content:
 
-Metadata Connector
+* Monday Leadership Brief
+* Leadership Attention Required
+* Executive Summary
+* This Week's Market Story
+* Top Signals Summary
 
-Reference Connector
+Questions answered:
 
-Use pill badges with proper padding.
+What changed this week?
 
----
+Why should leadership care?
 
-TIMESTAMPS
-
-Convert timestamps to readable format.
-
-Example:
-
-May 29, 2026
-3:16 PM
-
-Avoid showing long raw timestamps inside small cards.
+What requires immediate attention?
 
 ---
 
-CARD DESIGN
+## Workspace 2
 
-Use:
+ACTIONS
 
-* Consistent height
-* Better spacing
-* Improved padding
-* Stronger visual hierarchy
+Purpose:
 
-The section should feel similar to:
+Decision support.
 
-Stripe Dashboard
-Linear
-Vercel
-Palantir
+Content:
 
-Avoid:
+* Recommended Leadership Actions
+* Strategic Opportunities
+* Competitive Risks
+* Supporting Signals
+* Confidence Levels
 
-* Tiny cards
-* Compressed layouts
-* Excessive wrapping
+Questions answered:
+
+What should KITSCH consider doing?
+
+What evidence supports the recommendation?
 
 ---
 
-RESPONSIVENESS
+## Workspace 3
+
+SIGNALS
+
+Purpose:
+
+Detailed intelligence review.
+
+Content:
+
+* Strategic Signals
+* Product Launch Radar
+* Pricing Intelligence
+* Campaign Intelligence
+
+Each signal must display:
+
+* What Happened
+* Why It Matters
+* Recommended Action
+* Confidence
+* Evidence
+
+Questions answered:
+
+What is happening in the market?
+
+Why does it matter?
+
+---
+
+## Workspace 4
+
+EVIDENCE
+
+Purpose:
+
+Traceability and validation.
+
+Content:
+
+* Evidence Feed
+* Source URLs
+* Collection Timestamps
+* Source Types
+* Confidence Scores
+* Observed Content
+
+Questions answered:
+
+What evidence supports these conclusions?
+
+How trustworthy is the intelligence?
+
+---
+
+## Workspace 5
+
+COLLECTION
+
+Purpose:
+
+Operational transparency.
+
+Content:
+
+* Data Collection Status
+* Run Public Collection
+* Collection Mode
+* Website Collection Status
+* Social Source Status
+* Ad Library Status
+* Sources Processed
+* Signals Generated
+* Failed Sources
+* Last Collection Timestamp
+
+Questions answered:
+
+How is intelligence being collected?
+
+What collection mode is active?
+
+---
+
+# DESIGN SYSTEM
+
+Theme:
+
+Retain premium dark theme.
+
+Enhance:
+
+* Visual hierarchy
+* Information density
+* Scanability
+* Executive readability
+
+---
+
+# WORKSPACE BAR DESIGN
+
+Position:
+
+Directly below page title.
+
+Structure:
+
+┌────────┬────────┬────────┬────────┬────────┐
+│ BRIEF  │ACTIONS │SIGNALS │EVIDENCE│COLLECT │
+└────────┴────────┴────────┴────────┴────────┘
+
+Behavior:
+
+* Smooth transitions
+* Keyboard accessible
+* State persistence
+* Responsive layout
 
 Desktop:
 
-Clean horizontal layout.
+Full horizontal workspace bar.
 
 Tablet:
 
-2-column layout.
+Horizontal scrolling workspace bar.
 
 Mobile:
 
-Single-column stack.
-
-No clipping.
-
-No overflow.
-
-No overlapping elements.
+Scrollable workspace selector.
 
 ---
 
-EXECUTIVE EXPERIENCE
+# CONTENT TRANSITIONS
 
-A COO should be able to scan this section in less than 5 seconds and understand:
+Workspace changes should feel intentional.
 
-* Is collection running?
-* What mode is active?
-* How many signals were generated?
-* Were there failures?
-* When was the last collection?
+Use:
 
-The section should feel operationally important and visually polished.
+* Subtle fade
+* Slide
+* Motion
 
-SUCCESS CRITERIA
+Avoid:
 
-No text overlap.
-No badge overflow.
-No timestamp clipping.
-Readable at all breakpoints.
-Looks like a premium intelligence platform.
+* Jarring page reloads
+* Full navigation
+* Route changes if unnecessary
+
+The workspace should feel like a command center.
+
+---
+
+# EXECUTIVE EXPERIENCE
+
+The application should now behave like an intelligence workstation.
+
+When leadership opens the dashboard:
+
+Default workspace:
+
+BRIEF
+
+They immediately see:
+
+* What changed
+* Why it matters
+* What needs attention
+
+Then they can drill into:
+
+* Actions
+* Signals
+* Evidence
+* Collection
+
+without scrolling through a massive page.
+
+---
+
+# REMOVE INFORMATION OVERLOAD
+
+The current dashboard is suffering from information competition.
+
+Reduce cognitive load by:
+
+* Showing only one workspace at a time
+* Preserving all content
+* Improving focus
+* Improving readability
+
+Do not remove intelligence.
+
+Reorganize it.
+
+---
+
+# PREMIUM DETAILS
+
+Add:
+
+* Workspace icons
+* Active workspace indicator
+* Smooth hover states
+* Subtle intelligence-platform styling
+
+Consider inspiration from:
+
+* Palantir
+* Bloomberg
+* Linear
+* Vercel
+* Stripe Radar
+
+Avoid:
+
+* Generic admin panels
+* Bootstrap aesthetics
+* Consumer-app styling
+
+---
+
+# TECHNICAL REQUIREMENTS
+
+Create reusable components:
+
+components/dashboard/workspace-tabs.tsx
+
+or equivalent.
+
+Maintain clean architecture.
+
+Use shadcn/ui where appropriate.
+
+Preserve responsiveness.
+
+Run:
+
+npm run lint
+
+npm run build
+
+Fix any issues before completion.
+
+---
+
+# SUCCESS CRITERIA
+
+A COO should be able to:
+
+1. Open SignalFlow
+2. Read the Brief workspace
+3. Understand what changed
+4. Navigate to Actions
+5. Review supporting Signals
+6. Validate Evidence
+7. Review Collection status
+
+without feeling overwhelmed.
+
+The final experience should feel like a world-class Executive Intelligence Platform rather than a dashboard with many sections.
