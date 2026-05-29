@@ -3,10 +3,16 @@
 import { useMemo, useState } from "react";
 import { Check, Copy, ExternalLink } from "lucide-react";
 
+import { EvidencePanel } from "@/components/dashboard/evidence-panel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import {
+  getImpactScore,
+  getPriorityFromSeverity,
+  getPriorityTone
+} from "@/lib/signal-presentation";
 import type {
   CompetitorSourceRegistryEntry,
   IntelligenceSignal,
@@ -31,6 +37,7 @@ export function WeeklyIntelModule({
   const [competitor, setCompetitor] = useState("All");
   const [signalType, setSignalType] = useState("All");
   const [copied, setCopied] = useState(false);
+  const [executiveView, setExecutiveView] = useState(false);
 
   const competitorOptions = useMemo(
     () => ["All", ...Array.from(new Set(signals.map((signal) => signal.competitor)))],
@@ -46,10 +53,19 @@ export function WeeklyIntelModule({
       signals.filter((signal) => {
         const competitorMatch = competitor === "All" || signal.competitor === competitor;
         const typeMatch = signalType === "All" || signal.signalType === signalType;
+        const executiveMatch =
+          !executiveView || getPriorityFromSeverity(signal.severity) === "High";
 
-        return competitorMatch && typeMatch;
+        return competitorMatch && typeMatch && executiveMatch;
       }),
-    [competitor, signalType, signals]
+    [competitor, executiveView, signalType, signals]
+  );
+  const visibleCollectedSignals = useMemo(
+    () =>
+      executiveView
+        ? collectedSignals.filter((signal) => signal.executivePriority)
+        : collectedSignals,
+    [collectedSignals, executiveView]
   );
 
   async function copyBrief() {
@@ -82,6 +98,24 @@ export function WeeklyIntelModule({
             </div>
           </CardHeader>
           <CardContent className="space-y-5">
+            <label className="flex items-start gap-3 rounded-md border border-white/10 bg-white/[0.03] p-3">
+              <input
+                checked={executiveView}
+                className="mt-1"
+                onChange={(event) => setExecutiveView(event.target.checked)}
+                type="checkbox"
+              />
+              <span>
+                <span className="block text-sm font-medium text-foreground">
+                  Executive Intelligence View
+                </span>
+                <span className="text-sm leading-6 text-muted-foreground">
+                  Hide low-value information and show only high-priority signals,
+                  leadership recommendations, strategic risks, and emerging
+                  opportunities.
+                </span>
+              </span>
+            </label>
             <div className="grid gap-3 md:grid-cols-2">
               <label className="space-y-2">
                 <span className="text-xs font-medium uppercase text-muted-foreground">
@@ -124,11 +158,21 @@ export function WeeklyIntelModule({
                   className="rounded-lg border border-white/10 bg-white/[0.03] p-4"
                   key={signal.id}
                 >
+                  {(() => {
+                    const priority = getPriorityFromSeverity(signal.severity);
+                    const impactScore = getImpactScore(signal);
+
+                    return (
+                      <>
                   <div className="flex flex-wrap gap-2">
                     <Badge tone={signal.includeInExecutiveSummary ? "green" : "neutral"}>
                       {signal.includeInExecutiveSummary ? "executive signal" : "monitor only"}
                     </Badge>
                     <Badge tone="amber">Seeded Demonstration Data</Badge>
+                    <Badge tone={getPriorityTone(priority)}>
+                      Priority: {priority}
+                    </Badge>
+                    <Badge>Impact Score: {impactScore}</Badge>
                     <Badge>{signal.signalType as SignalType}</Badge>
                     <Badge>{signal.competitor}</Badge>
                     <Badge
@@ -159,27 +203,29 @@ export function WeeklyIntelModule({
                     {signal.whyItMatters}
                   </p>
                   <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                    <Metric label="Relevance" value={`${signal.score.relevanceToKitsch}/5`} />
-                    <Metric label="Impact" value={`${signal.score.businessImpact}/5`} />
-                    <Metric label="Urgency" value={signal.score.urgency} />
+                    <Metric label="Priority" value={priority} />
+                    <Metric label="Impact Score" value={`${impactScore}`} />
+                    <Metric label="Confidence" value={signal.score.confidence} />
                   </div>
                   <Separator className="my-4" />
                   <p className="text-sm leading-6 text-foreground">
                     <span className="font-medium">Recommended action: </span>
                     {signal.recommendedAction}
                   </p>
-                  <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                    <a
-                      className="inline-flex items-center gap-2 hover:text-foreground"
-                      href={signal.source.url}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" aria-hidden />
-                      Evidence link: {signal.source.label}
-                    </a>
-                    <span>Collected {signal.detectedAt}</span>
+                  <div className="mt-3">
+                    <EvidencePanel
+                      collectionDate={signal.detectedAt}
+                      confidence={signal.score.confidence}
+                      evidenceSummary={signal.strategicRelevance}
+                      observedText={signal.evidence}
+                      sourceLabel={signal.source.label}
+                      sourceType={signal.source.type}
+                      sourceUrl={signal.source.url}
+                    />
                   </div>
+                      </>
+                    );
+                  })()}
                 </div>
               ))}
             </div>
@@ -196,7 +242,7 @@ export function WeeklyIntelModule({
             </p>
           </CardHeader>
           <CardContent className="space-y-3">
-            {collectedSignals.map((signal) => (
+            {visibleCollectedSignals.map((signal) => (
               <div
                 className="rounded-lg border border-white/10 bg-white/[0.03] p-4"
                 key={signal.id}
@@ -227,21 +273,16 @@ export function WeeklyIntelModule({
                   <span className="font-medium text-foreground">Recommended action: </span>
                   {signal.recommendedAction}
                 </p>
-                <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                  <a
-                    className="inline-flex items-center gap-2 hover:text-foreground"
-                    href={signal.sourceUrl}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" aria-hidden />
-                    Evidence link
-                  </a>
-                  <span>Collected {new Date(signal.collectedAt).toLocaleString()}</span>
+                <div className="mt-4">
+                  <EvidencePanel
+                    collectionDate={new Date(signal.collectedAt).toLocaleString()}
+                    confidence={signal.score.confidence}
+                    evidenceSummary={signal.whyItMatters}
+                    observedText={signal.evidence}
+                    sourceType={signal.sourceType}
+                    sourceUrl={signal.sourceUrl}
+                  />
                 </div>
-                <p className="mt-3 rounded-md border border-white/10 bg-black/10 p-3 text-xs leading-5 text-muted-foreground">
-                  {signal.evidence}
-                </p>
               </div>
             ))}
           </CardContent>

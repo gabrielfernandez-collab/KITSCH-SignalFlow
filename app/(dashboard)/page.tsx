@@ -10,12 +10,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CollectionControl } from "@/components/dashboard/collection-control";
 import { Separator } from "@/components/ui/separator";
 import { collectPublicSignals } from "@/lib/collector";
-import { getExecutiveMetrics, getTopSignals } from "@/lib/intelligence";
+import {
+  getExecutiveMetrics,
+  getLeadershipActions,
+  getTopSignals
+} from "@/lib/intelligence";
 import { recommendations, weeklyBrief } from "@/lib/sample-data";
 
 export default async function ExecutiveDashboardPage() {
   const metrics = getExecutiveMetrics();
   const signals = getTopSignals();
+  const leadershipActions = getLeadershipActions();
   const collection = await collectPublicSignals({
     liveFetch: process.env.SIGNALFLOW_LIVE_FETCH === "true"
   });
@@ -49,6 +54,46 @@ export default async function ExecutiveDashboardPage() {
           <MetricCard key={metric.label} {...metric} />
         ))}
       </section>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Recommended Leadership Actions</CardTitle>
+          <p className="text-sm leading-6 text-muted-foreground">
+            Top 3 actions this week, ranked for executive decision support.
+          </p>
+        </CardHeader>
+        <CardContent className="grid gap-4 lg:grid-cols-3">
+          {leadershipActions.map((item, index) => (
+            <div
+              className="rounded-lg border border-white/10 bg-white/[0.03] p-4"
+              key={item.id}
+            >
+              <div className="flex flex-wrap gap-2">
+                <Badge tone={index === 0 ? "rose" : "amber"}>
+                  Action #{index + 1}
+                </Badge>
+                <Badge>{item.confidence} confidence</Badge>
+              </div>
+              <p className="mt-3 text-sm font-semibold text-foreground">
+                {item.title}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                {item.action}
+              </p>
+              <div className="mt-4">
+                <p className="text-xs font-medium uppercase text-muted-foreground">
+                  Supporting Signals
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {item.supportingSignals.map((signal) => (
+                    <Badge key={signal}>{signal}</Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
 
       <CollectionControl initialCollection={collection} />
 

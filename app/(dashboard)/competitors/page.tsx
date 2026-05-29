@@ -10,9 +10,9 @@ export default function CompetitorsPage() {
   return (
     <>
       <PageHeader
-        description="Profiles and activity posture for monitored competitors, emphasizing changes that affect KITSCH strategy."
+        description="Strategic competitor profiles focused on why each brand matters to KITSCH decisions."
         eyebrow="Competitors"
-        title="Monitored competitive set"
+        title="Strategic competitor profiles"
       />
 
       <section className="grid gap-5 md:grid-cols-2">
@@ -27,7 +27,7 @@ export default function CompetitorsPage() {
                   </p>
                 </div>
                 <Badge tone={competitor.signalScore >= 80 ? "green" : "cyan"}>
-                  score {competitor.signalScore}
+                  Impact Score {competitor.signalScore}
                 </Badge>
               </div>
             </CardHeader>
@@ -37,11 +37,42 @@ export default function CompetitorsPage() {
               </p>
               <div>
                 <p className="text-xs font-medium uppercase text-muted-foreground">
-                  Notable change
+                  Why This Competitor Matters
+                </p>
+                <p className="mt-2 text-sm leading-6 text-foreground">
+                  {competitor.name} matters because it competes in{" "}
+                  {competitor.segment.toLowerCase()} and helps indicate how
+                  consumer expectations are shifting around hair routines,
+                  accessories, pricing, and campaign positioning.
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase text-muted-foreground">
+                  What Happened
                 </p>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
                   {competitor.notableChange}
                 </p>
+              </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
+                  <p className="text-xs font-medium uppercase text-muted-foreground">
+                    Why It Matters
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-foreground">
+                    Changes from this competitor may create overlap with KITSCH
+                    merchandising, campaign language, or category pricing.
+                  </p>
+                </div>
+                <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
+                  <p className="text-xs font-medium uppercase text-muted-foreground">
+                    Recommended Action
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-foreground">
+                    Track repeat evidence across public website, social, and ad
+                    library sources before escalating roadmap changes.
+                  </p>
+                </div>
               </div>
               <div className="flex flex-wrap gap-2">
                 {competitor.monitoredSources.map((source) => (

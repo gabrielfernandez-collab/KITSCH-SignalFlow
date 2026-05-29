@@ -90,7 +90,7 @@ function simulateWebsiteExtraction(competitor: string): WebsiteExtraction {
     productTitle: `${competitor} hair accessory collection`,
     price: "$24",
     promotionalCopy:
-      "Public connector fallback: collection, bundle, and styling routine language should be monitored on this source.",
+      "Public connector fallback: collection, bundle, and styling routine language should be reviewed for strategic relevance.",
     metaDescription:
       "Simulated MVP extraction used when public pages block or require client-side rendering.",
     status: "simulated"

@@ -125,6 +125,14 @@ export interface Recommendation {
   action: string;
 }
 
+export interface LeadershipAction {
+  id: string;
+  title: string;
+  action: string;
+  confidence: ConfidenceLevel;
+  supportingSignals: string[];
+}
+
 export interface SourceLogEntry {
   competitor: string;
   source: string;

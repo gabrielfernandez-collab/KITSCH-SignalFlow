@@ -10,6 +10,7 @@ import {
 } from "@/lib/sample-data";
 import type {
   IntelligenceSignal,
+  LeadershipAction,
   SignalSeverity,
   SourceLogEntry,
   WeeklyBrief
@@ -29,6 +30,35 @@ interface ExecutiveMetric {
   value: number;
   context: string;
   accent: MetricAccent;
+}
+
+export function getLeadershipActions(): LeadershipAction[] {
+  return [
+    {
+      id: "leadership-action-1",
+      title: "Own travel-oriented hair routines before competitors define the occasion.",
+      action:
+        "Build a KITSCH travel hair routine offer that connects heatless styling, clips, towels, and beauty organization.",
+      confidence: "High",
+      supportingSignals: ["Heatless Hair", "Slip"]
+    },
+    {
+      id: "leadership-action-2",
+      title: "Defend heatless styling value without immediately matching markdowns.",
+      action:
+        "Test PDP and paid-social messaging around comfort, durability, and complete routine value.",
+      confidence: "High",
+      supportingSignals: ["Heatless Hair"]
+    },
+    {
+      id: "leadership-action-3",
+      title: "Use routine-building mechanics to raise attachment in premium tools.",
+      action:
+        "Pilot routine-builder modules and bundle prompts before adding deeper promotional discounts.",
+      confidence: "Medium",
+      supportingSignals: ["Crown Affair", "Dae"]
+    }
+  ];
 }
 
 export function getExecutiveMetrics(): ExecutiveMetric[] {
@@ -144,6 +174,8 @@ export function formatBriefForCopy(brief: Omit<WeeklyBrief, "copyReadyReport">) 
           signal.summary
         }\nWHY IT MATTERS: ${signal.whyItMatters}\nRECOMMENDED ACTION: ${
           signal.recommendedAction
+        }\nCONFIDENCE: ${signal.score.confidence}\nEVIDENCE: ${signal.evidence}\nSOURCE: ${
+          signal.source.url
         }`
     ),
     "",

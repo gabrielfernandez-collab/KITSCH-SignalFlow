@@ -2,100 +2,55 @@ Read AGENTS.md and review the current implementation of KITSCH SignalFlow.
 
 GOAL
 
-Perform a final assessment-readiness pass.
+Transform SignalFlow from a competitive monitoring dashboard into an executive intelligence system.
 
-The objective is not to add more features.
+The application already surfaces competitive signals.
 
-The objective is to strengthen compliance with the assessment requirements and improve credibility for reviewers.
+The next objective is to improve:
 
-Focus on transparency, usability, and demonstrating a realistic public intelligence workflow.
+* Credibility
+* Traceability
+* Executive usefulness
+* Decision support
 
----
+Do NOT add unnecessary complexity.
 
-TASK 1
+Do NOT redesign the product.
 
-Improve Public Data Collection Transparency
-
-Review the current data collection implementation.
-
-Create a dedicated section in the UI called:
-
-"Data Collection Status"
-
-Display:
-
-* Live Website Collection Enabled/Disabled
-* Social Source Collection Status
-* Ad Library Collection Status
-* Last Collection Timestamp
-
-Explain clearly:
-
-* Which sources are collected live
-* Which sources are currently using public metadata
-* Which sources are operating in MVP mode
-
-This information should be visible from the dashboard.
-
-The goal is to help reviewers immediately understand the collection strategy.
+Focus entirely on making every surfaced signal actionable.
 
 ---
 
-TASK 2
+# TASK 1
 
-Add Public Collection Execution Workflow
+Add Intelligence Framework
 
-Create a new dashboard action:
+Every surfaced signal must answer three questions:
 
-"Run Public Collection"
+1. What Happened?
+2. Why It Matters?
+3. Recommended Action
 
-Requirements:
+This framework should be consistently applied throughout:
 
-* Trigger the collection pipeline
-* Collect data from configured public sources
-* Refresh signals
-* Regenerate the weekly brief
+* Executive Dashboard
+* Competitor Profiles
+* Product Launch Radar
+* Pricing Intelligence
+* Campaign Intelligence
+* Weekly Brief
 
-Provide:
+Current state:
 
-* Progress indicator
-* Collection summary
-* Number of signals collected
-* Sources processed
+Signals primarily show:
 
-The user should be able to run a collection cycle directly from the dashboard.
+* Competitor
+* Description
+* Notable Change
 
----
+Target state:
 
-TASK 3
-
-Improve Source Traceability
-
-Every signal must include:
-
-* Source Type
-* Source URL
-* Collection Timestamp
-
-Ensure every card and detail view exposes this information.
-
-Add badges:
-
-Website
-Social
-Ad Library
-
-The reviewer should always be able to trace a signal back to its origin.
-
----
-
-TASK 4
-
-Strengthen Weekly Brief Credibility
-
-Review the Weekly Brief Generator.
-
-Every insight must contain:
+Every signal card should include:
 
 WHAT HAPPENED
 
@@ -103,146 +58,298 @@ WHY IT MATTERS
 
 RECOMMENDED ACTION
 
-Do not allow unsupported conclusions.
+Example:
 
-If data is sample or simulated:
+What Happened
 
-Label it clearly.
+Competitor expanded overnight curl system messaging into travel bundles.
 
-Examples:
+Why It Matters
 
-"Sample Signal"
+Signals category expansion into travel-oriented use cases and broader customer adoption scenarios.
 
-"Seeded Demonstration Data"
+Recommended Action
 
-"MVP Demonstration"
-
-The goal is to avoid any appearance of fabricated intelligence.
+Monitor whether bundle positioning creates overlap with KITSCH travel accessory offerings.
 
 ---
 
-TASK 5
+# TASK 2
 
-Assessment Readiness Panel
+Add Evidence Traceability
 
-Create a dedicated page:
+Current signals reference sources.
 
-/assessment
+Strengthen credibility.
 
-Display:
+Add:
 
-Assessment Compliance Checklist
+View Evidence
 
-Show:
+interaction on every signal.
 
-✓ Public Data Sources
-✓ Competitor Websites
-✓ Social Sources
-✓ Ad Library Sources
-✓ Signal Normalization
-✓ Signal Scoring
-✓ Weekly Brief Generation
-✓ Executive Recommendations
-✓ Evidence Traceability
-✓ Dashboard Integration
-✓ README Documentation
+Evidence panel should display:
 
-For each item:
+Source URL
 
-Display implementation notes.
+Collection Date
 
-This page should help a reviewer verify compliance in less than two minutes.
+Source Type
 
----
+Observed Text
 
-TASK 6
+Evidence Summary
 
-README Improvement
-
-Add a section:
-
-Assessment Requirement Mapping
-
-Create a table:
-
-Requirement
-Implementation
-Status
-
-Map every requirement from the assessment email.
+Confidence Level
 
 Example:
 
-Requirement:
-Pulls only public data
+Evidence
 
-Implementation:
-Website collector, social source connectors, ad library connectors
+Source:
+https://competitor.com/product-page
 
-Status:
-Implemented
+Observed:
+"Introducing our new travel bundle..."
 
-Repeat for all requirements.
+Collected:
+2026-05-27
+
+Confidence:
+High
+
+Reviewers should immediately understand where every conclusion originated.
 
 ---
 
-TASK 7
+# TASK 3
 
-Live Collection Verification
+Improve Signal Scoring Transparency
 
-Review the current collection pipeline.
+Current score values lack context.
 
-Ensure:
+Replace simple score badges with:
 
-* Live website collection can be enabled through configuration
-* Errors are handled gracefully
-* Failed sources do not break the dashboard
-* Collection results are logged
+Priority
 
-Provide a collection summary after each run.
+High
+Medium
+Low
+
+and
+
+Impact Score
+
+0-100
+
+Add tooltip or explanatory text:
+
+Priority reflects strategic relevance to KITSCH.
+
+Impact Score estimates potential business significance.
 
 Example:
 
-Collection Complete
+Priority: High
 
-Sources Processed: 12
-Signals Generated: 47
-Failed Sources: 1
+Impact Score: 88
 
 ---
 
-TASK 8
+# TASK 4
 
-Executive Polish
+Add Executive Recommendation Layer
 
-Review the entire application.
+Create a dedicated section on the Executive Dashboard:
 
-Prioritize:
+Recommended Leadership Actions
 
-* Clarity
-* Credibility
-* Traceability
-* Actionability
+Generate:
 
-Do not add unnecessary features.
+Top 3 Actions This Week
 
-Do not redesign the application.
+Each action must reference supporting signals.
 
-Do not introduce complexity.
+Example:
 
-The final result should feel like a practical competitive intelligence module that a COO could evaluate and understand immediately.
+Action #1
+
+Monitor premium travel-bundle positioning in heatless styling category.
+
+Supporting Signals:
+
+* Heatless Hair
+* Slip
+
+Confidence:
+
+High
+
+This should be one of the first sections leadership sees.
+
+---
+
+# TASK 5
+
+Add Signal Confidence System
+
+Every surfaced signal should include:
+
+Confidence Level
+
+Options:
+
+High
+Medium
+Low
+
+Confidence should be based on:
+
+* Source quality
+* Evidence completeness
+* Data freshness
+
+Display confidence visibly.
+
+Do not hide uncertainty.
+
+If confidence is low:
+
+State it clearly.
+
+---
+
+# TASK 6
+
+Add Why This Competitor Matters
+
+Enhance competitor cards.
+
+Current state:
+
+Name
+Category
+Sources
+
+Add:
+
+Strategic Relevance
+
+Example:
+
+Why This Competitor Matters
+
+Leader in heatless styling category and frequently influences premium accessory positioning.
+
+This helps demonstrate research depth.
+
+---
+
+# TASK 7
+
+Improve Weekly Brief Structure
+
+Review generated weekly brief.
+
+Every insight should follow:
+
+Signal
+
+Why It Matters
+
+Recommended Action
+
+Confidence
+
+Evidence
+
+Avoid generic summaries.
+
+Write like an analyst preparing a report for the COO.
+
+---
+
+# TASK 8
+
+Assessment Review Mode
+
+Create an optional toggle:
+
+Executive Intelligence View
+
+When enabled:
+
+Hide low-value information.
+
+Only show:
+
+* High-priority signals
+* Leadership recommendations
+* Strategic risks
+* Emerging opportunities
+
+The goal is to simulate what a COO would review Monday morning.
+
+---
+
+# TASK 9
+
+Add Decision Support Messaging
+
+Across the application, shift language away from monitoring.
+
+Replace phrases like:
+
+Recent Activity
+
+Observed Events
+
+Signal Feed
+
+with language like:
+
+Strategic Signals
+
+Leadership Insights
+
+Recommended Actions
+
+Market Intelligence
+
+Competitive Risk
+
+Emerging Opportunity
+
+The product should feel like a decision-support tool.
+
+---
+
+# TASK 10
+
+Final Executive Polish
+
+Review all screens.
+
+Ask:
+
+Would a COO immediately understand:
+
+* What changed?
+* Why it matters?
+* What should be done?
+
+If not, improve the presentation.
 
 SUCCESS CRITERIA
 
-A reviewer should be able to:
+A reviewer should be able to open SignalFlow and answer:
 
-1. Open the application
-2. Understand where data comes from
-3. Run a collection cycle
-4. Review collected signals
-5. Trace evidence to sources
-6. Read the weekly brief
-7. Understand why insights matter
-8. Verify assessment compliance
+1. What changed this week?
+2. Why should KITSCH care?
+3. What action should leadership consider?
+4. How confident are we?
+5. What evidence supports this conclusion?
 
-All within five minutes.
+within two minutes.
+
+The final result should feel like an executive intelligence platform rather than a competitor monitoring dashboard.

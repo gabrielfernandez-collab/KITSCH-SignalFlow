@@ -22,7 +22,7 @@ export function TopBar() {
           </Badge>
           <Badge tone="cyan">
             <Database className="mr-1.5 h-3.5 w-3.5" aria-hidden />
-            18 monitored feeds
+            18 public sources
           </Badge>
           <Badge tone="amber">
             <CalendarDays className="mr-1.5 h-3.5 w-3.5" aria-hidden />
