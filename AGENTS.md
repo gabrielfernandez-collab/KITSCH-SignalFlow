@@ -58,13 +58,13 @@ Build a working module we can plug into our current dashboard — weekly competi
 
 Only public data sources.
 
-No private APIs.
-
 No credentials.
 
-No non-public information.
+No private APIs.
 
-No ToS-risky scraping.
+No restricted sources.
+
+No unsupported scraping.
 
 ## MVP Collection Strategy
 
@@ -99,7 +99,7 @@ Every surfaced signal should answer:
 4. Evidence
 5. Confidence
 
-## Executive Design Principles
+## Design Principles
 
 - Executive intelligence
 - Decision support

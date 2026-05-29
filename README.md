@@ -157,7 +157,7 @@ npm run build
 
 ## Architecture
 
-- `app/(dashboard)` contains the main dashboard experience and route groups.
+- `app/(dashboard)` contains the main dashboard route group and Executive Intelligence Workspace.
 - `app/(dashboard)/page.tsx` renders the Executive Intelligence Workspace with 5
   switchable workspaces (Brief, Actions, Signals, Evidence, Collection) via the
   workspace navigation system.
