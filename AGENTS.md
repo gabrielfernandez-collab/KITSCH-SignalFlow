@@ -63,7 +63,6 @@ The solution must:
 
 The project will be evaluated on:
 
-* How the candidate thinks through real problems
 * Taste in what matters and what to ignore
 * How output is structured so KITSCH can act on it
 * Quality of code and build versus polish of templates
